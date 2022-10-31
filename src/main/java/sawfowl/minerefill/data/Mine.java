@@ -193,7 +193,7 @@ public class Mine {
 		return map;
 	}
 
-	public boolean fill(PluginContainer container, Locales locales, Logger logger, boolean actionBar) {
+	public boolean fill(PluginContainer container, Locales locales, Logger logger, boolean actionBar, boolean debug) {
 		if(!getWorld().isPresent()) return false;
 		long async = System.currentTimeMillis();
 		ServerWorld world = getWorld().get();
@@ -208,7 +208,7 @@ public class Mine {
 			lastUpdate = System.currentTimeMillis();
 			setNextUpdate(false);
 			time = System.currentTimeMillis() - time;
-			if(logger != null) logger.info(locales.getString(org.spongepowered.api.util.locale.Locales.DEFAULT, LocalesPaths.UPDATE_CONSOLE).replace(ReplaceKeys.UUID, uniqueid.toString()).replace(ReplaceKeys.NAME, getName()).replace(ReplaceKeys.FULL_TIME, s(asyncTime + time)).replace(ReplaceKeys.ASYNC_TIME, s(asyncTime)));
+			if(debug && logger != null) logger.info(locales.getString(org.spongepowered.api.util.locale.Locales.DEFAULT, LocalesPaths.UPDATE_CONSOLE).replace(ReplaceKeys.UUID, uniqueid.toString()).replace(ReplaceKeys.NAME, getName()).replace(ReplaceKeys.FULL_TIME, s(asyncTime + time)).replace(ReplaceKeys.ASYNC_TIME, s(asyncTime)));
 			sendMessage(actionBar, locales);
 		}).build());
 		return true;

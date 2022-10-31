@@ -33,7 +33,7 @@ public class FillCommand extends AbstractCommand {
 		if(!plugin.getEditableMine(player.uniqueId()).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.NOT_SELECTED));
 		Mine mine = plugin.getEditableMine(player.uniqueId()).get();
 		Sponge.asyncScheduler().executor(plugin.getPluginContainer()).execute(() -> {
-			mine.fill(plugin.getPluginContainer(), plugin.getLocales(), plugin.getLogger(), plugin.getConfig().isActionBarMessages());
+			mine.fill(plugin.getPluginContainer(), plugin.getLocales(), plugin.getLogger(), plugin.getConfig().isActionBarMessages(), plugin.getConfig().isDebug());
 			player.sendMessage(plugin.getLocales().getTextReplaced2(locale, AbstractLocaleUtil.replaceMapComponents(Arrays.asList(ReplaceKeys.NAME), Arrays.asList(mine.getDisplayName(locale))), LocalesPaths.FILL_SUCCESS));
 		});
 		return success();

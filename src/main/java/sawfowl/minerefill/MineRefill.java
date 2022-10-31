@@ -199,7 +199,7 @@ public class MineRefill {
 		Sponge.asyncScheduler().submit((getConfig().getDelayAfterStart() > 0 ? Task.builder().delay(getConfig().getDelayAfterStart(), TimeUnit.MINUTES) : Task.builder()).interval(1, TimeUnit.SECONDS).plugin(pluginContainer).execute(() -> {
 			for(Mine mine : mines) if(mine.isSchedule() && mine.getWorld().isPresent()) {
 				int nextUpdateSeconds = (int) ((mine.getNextUpdate() / 1000) - (System.currentTimeMillis() / 1000));
-				if(nextUpdateSeconds == 0) mine.fill(pluginContainer, locales, logger, getConfig().isActionBarMessages());
+				if(nextUpdateSeconds == 0) mine.fill(pluginContainer, locales, logger, getConfig().isActionBarMessages(), getConfig().isDebug());
 				if(nextUpdateSeconds < 0) mine.setNextUpdate(true);
 				switch (nextUpdateSeconds) {
 				case 600:
