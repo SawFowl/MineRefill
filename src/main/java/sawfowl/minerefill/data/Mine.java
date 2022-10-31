@@ -68,7 +68,7 @@ public class Mine {
 	@Setting("Schedule")
 	private boolean schedule = false;
 	@Setting("ScheduleTime")
-	private int scheduleInterval = 0;
+	private Long scheduleInterval = 0l;
 	@Setting("CustomNames")
 	private Map<String, String> customNames = new HashMap<>();
 
@@ -123,11 +123,11 @@ public class Mine {
 		this.schedule = schedule;
 	}
 
-	public int getScheduleInterval() {
+	public long getScheduleInterval() {
 		return scheduleInterval;
 	}
 
-	public void setScheduleTime(int interval) {
+	public void setScheduleTime(long interval) {
 		scheduleInterval = interval;
 		setNextUpdate(false);
 	}

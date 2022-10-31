@@ -27,29 +27,18 @@ public class Positions {
 
 	public void setFirst(Vector3i vector3i) {
 		min = new Position(vector3i);
+		calc();
 	}
 
 	public void setSecond(Vector3i vector3i) {
-		if(min == null) {
-			min = new Position(vector3i);
-			return;
-		} else {
-			max = new Position(vector3i);
-		}
-		if(min != null && max != null) {
-			Vector3i minimum = max.getVector3i().min(min.getVector3i());
-			Vector3i maximum = max.getVector3i().max(min.getVector3i());
-			min = new Position(minimum);
-			max = new Position(maximum);
-		}
+		max = new Position(vector3i);
+		calc();
 	}
 
 	public void setPosition(Vector3i vector3i, boolean first) {
 		if(first) {
 			setFirst(vector3i);
-		} else {
-			setSecond(vector3i);
-		}
+		} else setSecond(vector3i);
 	}
 
 	public List<Vector3i> getAllPositions() {
@@ -63,6 +52,14 @@ public class Positions {
 			}
 		}
 		return allPositions;
+	}
+
+	private void calc() {
+		if(min == null || max == null) return;
+		Vector3i minimum = max.getVector3i().min(min.getVector3i());
+		Vector3i maximum = max.getVector3i().max(min.getVector3i());
+		min = new Position(minimum);
+		max = new Position(maximum);
 	}
 
 }
