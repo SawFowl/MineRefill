@@ -49,15 +49,11 @@ public class MineBlock {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if(this == obj) return true;
+		if(obj == null) return false;
+		if(getClass() != obj.getClass()) return false;
 		MineBlock other = (MineBlock) obj;
-		return Objects.equals(block, other.block)
-				&& Double.doubleToLongBits(chance) == Double.doubleToLongBits(other.chance);
+		return Objects.equals(block, other.block) && Double.doubleToLongBits(chance) == Double.doubleToLongBits(other.chance);
 	}
 
 }
