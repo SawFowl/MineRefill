@@ -41,9 +41,13 @@ public class Positions {
 		} else setSecond(vector3i);
 	}
 
+	public boolean isSet() {
+		return min != null && max != null;
+	}
+
 	public List<Vector3i> getAllPositions() {
 		List<Vector3i> allPositions = new ArrayList<Vector3i>();
-		if(min == null || max == null) return allPositions;
+		if(!isSet()) return allPositions;
 		for(int x = min.x; x <= (int) max.x; x++) {
 			for(int y = min.y; y <= (int) max.y; y++) {
 				for(int z = min.z; z <= (int) max.z; z++) {
@@ -54,8 +58,24 @@ public class Positions {
 		return allPositions;
 	}
 
+	public List<Vector3i> getAllCorners() {
+		List<Vector3i> corners = new ArrayList<Vector3i>();
+		corners.add(min.getVector3i());
+		
+		corners.add(Vector3i.from(max.x, min.y, min.z));
+		corners.add(Vector3i.from(min.x, min.y, max.z));
+		corners.add(Vector3i.from(max.x, min.y, max.z));
+		
+		corners.add(Vector3i.from(min.x, max.y, max.z));
+		corners.add(Vector3i.from(max.x, max.y, min.z));
+		corners.add(Vector3i.from(min.x, max.y, min.z));
+		
+		corners.add(max.getVector3i());
+		return corners;
+	}
+
 	private void calc() {
-		if(min == null || max == null) return;
+		if(!isSet()) return;
 		Vector3i minimum = max.getVector3i().min(min.getVector3i());
 		Vector3i maximum = max.getVector3i().max(min.getVector3i());
 		min = new Position(minimum);
