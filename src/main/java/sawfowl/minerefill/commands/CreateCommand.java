@@ -31,9 +31,7 @@ public class CreateCommand extends AbstractCommand {
 			player.sendMessage(plugin.getLocales().getText(locale, LocalesPaths.CREATE_EDIT_OTHER).clickEvent(SpongeComponents.executeCallback(cause -> {
 				create(player);
 			})));
-		} else {
-			create(player);
-		}
+		} else create(player);
 		return success();
 	}
 
