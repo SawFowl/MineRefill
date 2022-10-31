@@ -40,7 +40,7 @@ public class SetPosCommand extends AbstractCommand {
 			mine.getPositions().getAllCorners().forEach(corner -> {
 				player.sendBlockChange(corner, BlockTypes.YELLOW_STAINED_GLASS.get().defaultState());
 			});
-		} else player.sendBlockChange(player.blockPosition(), (first ? BlockTypes.RED_STAINED_GLASS.get() : BlockTypes.LIGHT_BLUE_STAINED_GLASS.get()).defaultState());
+		} else player.sendBlockChange(player.blockPosition(), (first ? BlockTypes.RED_STAINED_GLASS : BlockTypes.LIGHT_BLUE_STAINED_GLASS).get().defaultState());
 		player.sendMessage(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.POSITION), Arrays.asList(position)), LocalesPaths.SETPOS_SUCCESS));
 		return success();
 	}
