@@ -1,0 +1,62 @@
+plugins {
+	id("java")
+	id("org.spongepowered.gradle.plugin") version "2.0.2"
+	id("eclipse")
+}
+
+group = "sawfowl.minerefill"
+version = "${major}.${minor}.${patch}-${api}-${suffix}"
+
+java {
+	sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+	mavenCentral()
+	maven {
+		name = "Sponge"
+		url = "https://repo.spongepowered.org/repository/maven-public"
+	}
+	maven { 
+		name = "JitPack"
+		url 'https://jitpack.io' 
+	}
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+dependencies {
+	implementation "org.spongepowered:spongeapi:8.0.0"
+	implementation "com.github.SawFowl:LocaleAPI:2.2.0"
+	//implementation fileTree(dir: 'libs', include: '*.jar')
+}
+
+sponge {
+	apiVersion("8.0.0")
+	loader {
+		name("java_plain")
+		version("1.0")
+	}
+	license("GPL-3.0")
+	plugin("minerefill") {
+		displayName(project.name.capitalize())
+		version("${project.version}")
+		entrypoint("${project.group}.${rootProject.name}")
+		description("Creating sources of renewable resources for your server.")
+		contributor("SawFowl") {
+			description("Lead Developer")
+		}
+		dependency("spongeapi") {
+			optional(false)
+			loadOrder("after")
+			version("8.0.0")
+		}
+		dependency("localeapi") {
+			optional(false)
+			loadOrder("after")
+			version("8.0.0")
+		}
+	}
+}
