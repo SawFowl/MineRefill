@@ -176,15 +176,15 @@ public class Mine {
 			}
 		} else {
 			for(Vector3i vector3i : allPositions) {
-				double chance = BigDecimal.valueOf(ThreadLocalRandom.current().nextDouble(0, 100)).setScale(3, RoundingMode.HALF_UP).doubleValue();
-				MineBlock[] blocks = this.blocks.stream().filter(b -> (b.getChance() >= chance)).toArray(MineBlock[]::new);
-				MineBlock mineBlock = blocks.length == 0 ? null : blocks[0];
-				if(mineBlock != null) {
-					for(MineBlock block : blocks) {
-						if(block.getChance() < mineBlock.getChance()) mineBlock = block;
-						if(block.getChance() == mineBlock.getChance() && random.nextBoolean()) mineBlock = block;
-					}
-					if(random.nextBoolean()) {
+				if(random.nextBoolean()) {
+					double chance = BigDecimal.valueOf(ThreadLocalRandom.current().nextDouble(0, 100)).setScale(3, RoundingMode.HALF_UP).doubleValue();
+					MineBlock[] blocks = this.blocks.stream().filter(b -> (b.getChance() >= chance)).toArray(MineBlock[]::new);
+					MineBlock mineBlock = blocks.length == 0 ? null : blocks[0];
+					if(mineBlock != null) {
+						for(MineBlock block : blocks) {
+							if(block.getChance() < mineBlock.getChance()) mineBlock = block;
+							if(block.getChance() == mineBlock.getChance() && random.nextBoolean()) mineBlock = block;
+						}
 						map.put(vector3i, mineBlock.getBlockState());
 					} else map.put(vector3i, getRandomReserve());
 				} else map.put(vector3i, getRandomReserve());
@@ -216,9 +216,13 @@ public class Mine {
 
 	private String getName() {
 		Component name = getDisplayName("CONSOLE").compact();
-		name.decorations().clear();
-		name.style().decorations().clear();
-		return LegacyComponentSerializer.legacyAmpersand().serialize(name);
+		String toReturn = LegacyComponentSerializer.legacyAmpersand().serialize(name);
+		while(toReturn.indexOf('&') != -1 && !toReturn.endsWith("&") && isStyleChar(toReturn.charAt(toReturn.indexOf("&") + 1))) toReturn = toReturn.replaceAll("&" + toReturn.charAt(toReturn.indexOf("&") + 1), "");
+		return toReturn;
+	}
+
+	private boolean isStyleChar(char ch) {
+		return "0123456789abcdefklmnor".indexOf(ch) != -1;
 	}
 
 	private BlockState getRandomReserve() {
