@@ -52,8 +52,8 @@ public class Mine {
 
 	private Random random = new Random();
 	private List<BlockState> reserveBlocks = new ArrayList<>();
-	private Long lastUpdate = 0l;
-	private Long nextUpdate = 0l;
+	private long lastUpdate = 0;
+	private long nextUpdate = 0;
 
 	@Setting("UUID")
 	private UUID uniqueid;
@@ -68,7 +68,7 @@ public class Mine {
 	@Setting("Schedule")
 	private boolean schedule = false;
 	@Setting("ScheduleTime")
-	private Long scheduleInterval = 0l;
+	private int scheduleInterval = 0;
 	@Setting("CustomNames")
 	private Map<String, String> customNames = new HashMap<>();
 
@@ -127,7 +127,7 @@ public class Mine {
 		return scheduleInterval;
 	}
 
-	public void setScheduleTime(long interval) {
+	public void setScheduleTime(int interval) {
 		scheduleInterval = interval;
 		setNextUpdate(false);
 	}
@@ -163,7 +163,7 @@ public class Mine {
 
 	public void setNextUpdate(boolean updateLast) {
 		if(updateLast) lastUpdate = System.currentTimeMillis();
-		this.nextUpdate = lastUpdate + (scheduleInterval * 1000);
+		this.nextUpdate = lastUpdate + (scheduleInterval * (long) 1000);
 	}
 
 	public Map<Vector3i, BlockState> blocksPrepare() {
