@@ -201,56 +201,7 @@ public class MineRefill {
 				int nextUpdateSeconds = (int) ((mine.getNextUpdate() / 1000) - (System.currentTimeMillis() / 1000));
 				if(nextUpdateSeconds == 0) mine.fill(pluginContainer, locales, logger, getConfig().isActionBarMessages(), getConfig().isDebug());
 				if(nextUpdateSeconds < 0) mine.setNextUpdate(true);
-				switch (nextUpdateSeconds) {
-				case 600:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_10M);
-					break;
-				case 300:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_5M);
-					break;
-				case 180:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_3M);
-					break;
-				case 120:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_2M);
-					break;
-				case 60:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_1M);
-					break;
-				case 30:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_30S);
-					break;
-				case 10:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_10S);
-					break;
-				case 9:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_9S);
-					break;
-				case 8:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_8S);
-					break;
-				case 7:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_7S);
-					break;
-				case 6:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_6S);
-					break;
-				case 5:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_5S);
-					break;
-				case 4:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_4S);
-					break;
-				case 3:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_3S);
-					break;
-				case 2:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_2S);
-					break;
-				case 1:
-					sendMessage(mine, LocalesPaths.NOTIFICATION_1S);
-					break;
-				}
+				if(getConfig().getAlerts().containsKey(nextUpdateSeconds)) sendMessage(mine, getConfig().getAlerts().get(nextUpdateSeconds));
 			}
 		}).build());
 	}
