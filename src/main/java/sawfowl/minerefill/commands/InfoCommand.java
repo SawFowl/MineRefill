@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.spongepowered.api.adventure.SpongeComponents;
+import org.spongepowered.api.command.Command.Parameterized;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
@@ -95,6 +96,14 @@ public class InfoCommand extends AbstractCommand {
 		});
 		sendPagination(player, player.locale(), text, plugin.getLocales().getText(player.locale(), LocalesPaths.INFO_NAMES_LIST_TITLE), plugin.getLocales().getText(player.locale(), LocalesPaths.PADDING));
 	
+	}
+
+	@Override
+	public Parameterized build() {
+		return builder()
+				.permission(Permissions.INFO)
+				.executor(this)
+				.build();
 	}
 
 }

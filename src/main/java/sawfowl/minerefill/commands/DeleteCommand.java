@@ -2,6 +2,7 @@ package sawfowl.minerefill.commands;
 
 import java.util.Locale;
 
+import org.spongepowered.api.command.Command.Parameterized;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
@@ -11,6 +12,7 @@ import org.spongepowered.api.util.locale.Locales;
 
 import net.kyori.adventure.audience.Audience;
 import sawfowl.minerefill.MineRefill;
+import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.configure.LocalesPaths;
 import sawfowl.minerefill.data.Mine;
 
@@ -33,6 +35,14 @@ public class DeleteCommand extends AbstractCommand {
 		plugin.getEditableMines().remove(player.uniqueId());
 		player.sendMessage(plugin.getLocales().getText(locale, LocalesPaths.DELETE_SUCCESS));
 		return success();
+	}
+
+	@Override
+	public Parameterized build() {
+		return builder()
+				.permission(Permissions.EDIT)
+				.executor(this)
+				.build();
 	}
 
 }

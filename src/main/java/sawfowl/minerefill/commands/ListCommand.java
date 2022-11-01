@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.spongepowered.api.adventure.SpongeComponents;
+import org.spongepowered.api.command.Command.Parameterized;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
@@ -44,6 +45,14 @@ public class ListCommand extends AbstractCommand {
 		sendPagination(audience, locale, list, plugin.getLocales().getText(locale, LocalesPaths.LIST_TITLE), plugin.getLocales().getText(locale, LocalesPaths.PADDING));
 		if(!list.isEmpty() && audience instanceof ServerPlayer && (context.cause().hasPermission(Permissions.EDIT) || context.cause().hasPermission(Permissions.FILL) || context.cause().hasPermission(Permissions.INFO))) audience.sendMessage(plugin.getLocales().getText(locale, LocalesPaths.LIST_INFO));;
 		return success();
+	}
+
+	@Override
+	public Parameterized build() {
+		return builder()
+				.permission(Permissions.LIST)
+				.executor(this)
+				.build();
 	}
 
 }

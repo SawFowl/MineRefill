@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.spongepowered.api.command.Command.Parameterized;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
@@ -45,6 +46,27 @@ public class MainCommand extends AbstractCommand {
 		if(context.cause().hasPermission(Permissions.RELOAD)) help.add(toText("&a/minerefill reload").clickEvent(ClickEvent.runCommand("/minerefill reload")).append(toText(" ")).append(plugin.getLocales().getText(locale, LocalesPaths.MAIN_RELOAD)));
 		sendPagination(audience, locale, help, plugin.getLocales().getText(locale, LocalesPaths.MAIN_TITLE), plugin.getLocales().getText(locale, LocalesPaths.PADDING));
 		return success();
+	}
+
+	@Override
+	public Parameterized build() {
+		return builder()
+				.permission(Permissions.MAIN_COMMAND)
+				.executor(this)
+				.addChild(new CreateCommand(plugin).build(), "create")
+				.addChild(new DeleteCommand(plugin).build(), "delete")
+				.addChild(new SetPosCommand(plugin).build(), "setpos")
+				.addChild(new AddBlockCommand(plugin).build(), "addblock")
+				.addChild(new AddReserveBlockCommand(plugin).build(), "addreserveblock")
+				.addChild(new SetIntervalCommand(plugin).build(), "interval")
+				.addChild(new SetScheduleCommand(plugin).build(), "schedule")
+				.addChild(new SetNameCommand(plugin).build(), "setname")
+				.addChild(new InfoCommand(plugin).build(), "info")
+				.addChild(new SaveCommand(plugin).build(), "save")
+				.addChild(new FillCommand(plugin).build(), "fill")
+				.addChild(new ListCommand(plugin).build(), "list")
+				.addChild(new ReloadCommand(plugin).build(), "reload")
+				.build();
 	}
 
 }

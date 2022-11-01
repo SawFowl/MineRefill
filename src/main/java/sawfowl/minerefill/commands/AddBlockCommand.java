@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.spongepowered.api.command.Command.Parameterized;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
@@ -18,6 +19,7 @@ import org.spongepowered.api.world.LocatableBlock;
 import net.kyori.adventure.audience.Audience;
 import sawfowl.localeapi.utils.AbstractLocaleUtil;
 import sawfowl.minerefill.MineRefill;
+import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.configure.LocalesPaths;
 import sawfowl.minerefill.configure.ReplaceKeys;
 import sawfowl.minerefill.data.Mine;
@@ -46,5 +48,14 @@ public class AddBlockCommand extends AbstractCommand {
 		mine.addBlock(mineBlock);
 		player.sendMessage(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.BLOCK, ReplaceKeys.CHANCE), Arrays.asList(mineBlock.getSerializedBlock().getType(), chance)), LocalesPaths.ADD_BLOCK_SUCCESS));
 		return success();
+	}
+
+	@Override
+	public Parameterized build() {
+		return builder()
+				.permission(Permissions.EDIT)
+				.addParameter(CommandParameters.CHANCE)
+				.executor(this)
+				.build();
 	}
 }

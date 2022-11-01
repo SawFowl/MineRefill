@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.command.Command;
+import org.spongepowered.api.command.Command.Builder;
 import org.spongepowered.api.command.CommandExecutor;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
@@ -61,6 +63,12 @@ public abstract class AbstractCommand implements CommandExecutor {
 		.padding(padding)
 		.title(title)
 		.sendTo(audience);
+	}
+
+	public abstract Command.Parameterized build();
+
+	Builder builder() {
+		return Command.builder();
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.Command.Parameterized;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
@@ -14,6 +15,7 @@ import org.spongepowered.api.util.locale.Locales;
 import net.kyori.adventure.audience.Audience;
 import sawfowl.localeapi.utils.AbstractLocaleUtil;
 import sawfowl.minerefill.MineRefill;
+import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.configure.LocalesPaths;
 import sawfowl.minerefill.configure.ReplaceKeys;
 import sawfowl.minerefill.data.Mine;
@@ -37,6 +39,14 @@ public class FillCommand extends AbstractCommand {
 			player.sendMessage(plugin.getLocales().getTextReplaced2(locale, AbstractLocaleUtil.replaceMapComponents(Arrays.asList(ReplaceKeys.NAME), Arrays.asList(mine.getDisplayName(locale))), LocalesPaths.FILL_SUCCESS));
 		});
 		return success();
+	}
+
+	@Override
+	public Parameterized build() {
+		return builder()
+				.permission(Permissions.FILL)
+				.executor(this)
+				.build();
 	}
 
 }

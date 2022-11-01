@@ -3,6 +3,7 @@ package sawfowl.minerefill.commands;
 import java.util.Locale;
 
 import org.spongepowered.api.adventure.SpongeComponents;
+import org.spongepowered.api.command.Command.Parameterized;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
@@ -12,6 +13,7 @@ import org.spongepowered.api.util.locale.Locales;
 
 import net.kyori.adventure.audience.Audience;
 import sawfowl.minerefill.MineRefill;
+import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.configure.LocalesPaths;
 import sawfowl.minerefill.data.Mine;
 
@@ -39,6 +41,14 @@ public class CreateCommand extends AbstractCommand {
 		Mine mine = new Mine(player.world());
 		plugin.getEditableMines().put(player.uniqueId(), mine);
 		player.sendMessage(plugin.getLocales().getText(player.locale(), LocalesPaths.CREATE_SUCCESS));
+	}
+
+	@Override
+	public Parameterized build() {
+		return builder()
+				.permission(Permissions.EDIT)
+				.executor(this)
+				.build();
 	}
 
 }

@@ -40,21 +40,7 @@ import com.google.inject.Inject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import sawfowl.localeapi.event.LocaleServiseEvent;
-import sawfowl.minerefill.commands.AddBlockCommand;
-import sawfowl.minerefill.commands.AddReserveBlockCommand;
-import sawfowl.minerefill.commands.CommandParameters;
-import sawfowl.minerefill.commands.CreateCommand;
-import sawfowl.minerefill.commands.DeleteCommand;
-import sawfowl.minerefill.commands.FillCommand;
-import sawfowl.minerefill.commands.InfoCommand;
-import sawfowl.minerefill.commands.ListCommand;
 import sawfowl.minerefill.commands.MainCommand;
-import sawfowl.minerefill.commands.ReloadCommand;
-import sawfowl.minerefill.commands.SaveCommand;
-import sawfowl.minerefill.commands.SetIntervalCommand;
-import sawfowl.minerefill.commands.SetNameCommand;
-import sawfowl.minerefill.commands.SetPosCommand;
-import sawfowl.minerefill.commands.SetScheduleCommand;
 import sawfowl.minerefill.configure.Config;
 import sawfowl.minerefill.configure.Locales;
 import sawfowl.minerefill.configure.LocalesPaths;
@@ -101,95 +87,7 @@ public class MineRefill {
 
 	@Listener
 	public void onCommandRegister(RegisterCommandEvent<Command.Parameterized> event) {
-
-		Command.Parameterized createCommand = Command.builder()
-				.permission(Permissions.EDIT)
-				.executor(new CreateCommand(instance))
-				.build();
-		
-		Command.Parameterized deleteCommand = Command.builder()
-				.permission(Permissions.EDIT)
-				.executor(new DeleteCommand(instance))
-				.build();
-		
-		Command.Parameterized setPosCommand = Command.builder()
-				.permission(Permissions.EDIT)
-				.addParameter(CommandParameters.POSITION)
-				.executor(new SetPosCommand(instance))
-				.build();
-
-		Command.Parameterized addBlockCommand = Command.builder()
-				.permission(Permissions.EDIT)
-				.addParameter(CommandParameters.CHANCE)
-				.executor(new AddBlockCommand(instance))
-				.build();
-
-		Command.Parameterized addReserveBlockCommand = Command.builder()
-				.permission(Permissions.EDIT)
-				.executor(new AddReserveBlockCommand(instance))
-				.build();
-
-		Command.Parameterized intervalCommand = Command.builder()
-				.permission(Permissions.EDIT)
-				.addParameter(CommandParameters.TIME)
-				.executor(new SetIntervalCommand(instance))
-				.build();
-
-		Command.Parameterized scheduleCommand = Command.builder()
-				.permission(Permissions.EDIT)
-				.addParameter(CommandParameters.SCHEDULE)
-				.executor(new SetScheduleCommand(instance))
-				.build();
-
-		Command.Parameterized setNameCommand = Command.builder()
-				.permission(Permissions.EDIT)
-				.addParameters(CommandParameters.LOCALE, CommandParameters.NAME)
-				.executor(new SetNameCommand(instance))
-				.build();
-
-		Command.Parameterized infoCommand = Command.builder()
-				.permission(Permissions.INFO)
-				.executor(new InfoCommand(instance))
-				.build();
-
-		Command.Parameterized saveCommand = Command.builder()
-				.permission(Permissions.SAVE)
-				.executor(new SaveCommand(instance))
-				.build();
-
-		Command.Parameterized fillCommand = Command.builder()
-				.permission(Permissions.FILL)
-				.executor(new FillCommand(instance))
-				.build();
-
-		Command.Parameterized listCommand = Command.builder()
-				.permission(Permissions.LIST)
-				.executor(new ListCommand(instance))
-				.build();
-
-		Command.Parameterized reloadCommand = Command.builder()
-				.permission(Permissions.RELOAD)
-				.executor(new ReloadCommand(instance))
-				.build();
-
-		Command.Parameterized mainCommand = Command.builder()
-				.permission(Permissions.MAIN_COMMAND)
-				.executor(new MainCommand(instance))
-				.addChild(createCommand, "create")
-				.addChild(deleteCommand, "delete")
-				.addChild(setPosCommand, "setpos")
-				.addChild(addBlockCommand, "addblock")
-				.addChild(addReserveBlockCommand, "addreserveblock")
-				.addChild(intervalCommand, "interval")
-				.addChild(scheduleCommand, "schedule")
-				.addChild(setNameCommand, "setname")
-				.addChild(infoCommand, "info")
-				.addChild(saveCommand, "save")
-				.addChild(fillCommand, "fill")
-				.addChild(listCommand, "list")
-				.addChild(reloadCommand, "reload")
-				.build();
-		event.register(pluginContainer, mainCommand, "minerefill", "mine");
+		event.register(pluginContainer, new MainCommand(instance).build(), "minerefill", "mine");
 	}
 
 	@Listener
