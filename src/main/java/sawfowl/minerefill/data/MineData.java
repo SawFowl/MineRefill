@@ -38,13 +38,13 @@ import sawfowl.minerefill.configure.LocalesPaths;
 import sawfowl.minerefill.configure.ReplaceKeys;
 
 @ConfigSerializable
-public class Mine {
+public class MineData {
 
-	public Mine() {
+	public MineData() {
 		lastUpdate = System.currentTimeMillis();
 	}
 
-	public Mine(ServerWorld world) {
+	public MineData(ServerWorld world) {
 		this.world = world.key().asString();
 		this.uniqueid = UUID.randomUUID();
 		lastUpdate = System.currentTimeMillis();
