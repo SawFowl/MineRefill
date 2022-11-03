@@ -1,6 +1,7 @@
 package sawfowl.minerefill.commands;
 
 import org.spongepowered.api.command.parameter.Parameter;
+import java.util.UUID;
 
 public class CommandParameters {
 
@@ -13,5 +14,7 @@ public class CommandParameters {
 	public static final Parameter.Value<Boolean> SCHEDULE = Parameter.bool().optional().key("Schedule").build();
 
 	public static final Parameter.Value<String> NAME = Parameter.remainingJoinedStrings().optional().key("Name").build();
+
+	public static final Parameter.Value<UUID> UUID = Parameter.uuid().key("UUID").build();
 
 }

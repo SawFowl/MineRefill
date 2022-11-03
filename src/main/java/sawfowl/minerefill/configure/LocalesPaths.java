@@ -21,6 +21,7 @@ public class LocalesPaths {
 	private static final Object PATH_COMMAND_SAVE = "Save";
 	private static final Object PATH_COMMAND_FILL = "Fill";
 	private static final Object PATH_COMMAND_LIST = "List";
+	private static final Object PATH_COMMAND_SELECT = "Select";
 	private static final Object PATH_COMMAND_RELOAD = "Reload";
 	private static final Object PATH_UPDATE = "Update";
 	private static final Object PATH_COMPLETED = "Completed";
@@ -57,19 +58,20 @@ public class LocalesPaths {
 	public static final Object[] NOT_SELECTED = {PATH_COMMANDS, PATH_MISC, PATH_EXCEPTIONS, "Notselected"};
 
 	public static final Object[] MAIN_TITLE = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_TITLE};
-	public static final Object[] MAIN_CREATE = {PATH_COMMANDS, PATH_COMMAND_MAIN, "Create"};
-	public static final Object[] MAIN_DELETE = {PATH_COMMANDS, PATH_COMMAND_MAIN, "Delete"};
-	public static final Object[] MAIN_SETPOS = {PATH_COMMANDS, PATH_COMMAND_MAIN, "SetPos"};
-	public static final Object[] MAIN_ADD_BLOCK = {PATH_COMMANDS, PATH_COMMAND_MAIN, "AddBlock"};
-	public static final Object[] MAIN_ADD_RESERVE_BLOCK = {PATH_COMMANDS, PATH_COMMAND_MAIN, "AddReserveBlock"};
-	public static final Object[] MAIN_INTERVAL = {PATH_COMMANDS, PATH_COMMAND_MAIN, "Interval"};
-	public static final Object[] MAIN_SCHEDULE = {PATH_COMMANDS, PATH_COMMAND_MAIN, "Schedule"};
-	public static final Object[] MAIN_SET_NAME = {PATH_COMMANDS, PATH_COMMAND_MAIN, "SetName"};
-	public static final Object[] MAIN_INFO = {PATH_COMMANDS, PATH_COMMAND_MAIN, "Info"};
-	public static final Object[] MAIN_SAVE = {PATH_COMMANDS, PATH_COMMAND_MAIN, "Save"};
-	public static final Object[] MAIN_FILL = {PATH_COMMANDS, PATH_COMMAND_MAIN, "Fill"};
-	public static final Object[] MAIN_LIST = {PATH_COMMANDS, PATH_COMMAND_MAIN, "List"};
-	public static final Object[] MAIN_RELOAD = {PATH_COMMANDS, PATH_COMMAND_MAIN, "Reload"};
+	public static final Object[] MAIN_CREATE = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_CREATE};
+	public static final Object[] MAIN_DELETE = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_DELETE};
+	public static final Object[] MAIN_SETPOS = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_SETPOS};
+	public static final Object[] MAIN_ADD_BLOCK = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_ADD_BLOCK};
+	public static final Object[] MAIN_ADD_RESERVE_BLOCK = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_ADD_RESERVE_BLOCK};
+	public static final Object[] MAIN_INTERVAL = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_INTERVAL};
+	public static final Object[] MAIN_SCHEDULE = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_SCHEDULE};
+	public static final Object[] MAIN_SET_NAME = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_SET_NAME};
+	public static final Object[] MAIN_INFO = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_INFO};
+	public static final Object[] MAIN_SAVE = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_SAVE};
+	public static final Object[] MAIN_FILL = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_FILL};
+	public static final Object[] MAIN_LIST = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_LIST};
+	public static final Object[] MAIN_SELECT = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_SELECT};
+	public static final Object[] MAIN_RELOAD = {PATH_COMMANDS, PATH_COMMAND_MAIN, PATH_COMMAND_RELOAD};
 
 	public static final Object[] CREATE_EDIT_OTHER = {PATH_COMMANDS, PATH_COMMAND_CREATE, "EditOther"};
 	public static final Object[] CREATE_SUCCESS = {PATH_COMMANDS, PATH_COMMAND_CREATE, "Success"};
@@ -125,6 +127,8 @@ public class LocalesPaths {
 	public static final Object[] LIST_MINE_TELEPORT_DISALLOWED = {PATH_COMMANDS, PATH_COMMAND_LIST, "TeleportDisallowed"};
 	public static final Object[] LIST_MINE_SELECTED = {PATH_COMMANDS, PATH_COMMAND_LIST, "MineSelected"};
 	public static final Object[] LIST_INFO = {PATH_COMMANDS, PATH_COMMAND_LIST, PATH_COMMAND_INFO};
+
+	public static final Object[] SELECT_EXCEPTION = {PATH_COMMANDS, PATH_COMMAND_SELECT, PATH_EXCEPTIONS, "NotFound"};
 
 	public static final Object[] RELOAD_SUCCESS = {PATH_COMMANDS, PATH_COMMAND_RELOAD, PATH_SUCCESS};
 

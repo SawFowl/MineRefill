@@ -105,6 +105,7 @@ public class Locales {
 		save = check(save, localeUtil, toText("&f- &aSave the selected mine."), null, LocalesPaths.MAIN_SAVE);
 		save = check(save, localeUtil, toText("&f- &aFill the mine."), null, LocalesPaths.MAIN_FILL);
 		save = check(save, localeUtil, toText("&f- &aList of mines."), null, LocalesPaths.MAIN_LIST);
+		save = check(save, localeUtil, toText("&f- &aSelecting a mine by its UUID."), null, LocalesPaths.MAIN_SELECT);
 		save = check(save, localeUtil, toText("&f- &aReloading the plugin."), null, LocalesPaths.MAIN_RELOAD);
 
 		save = check(save, localeUtil, toText("&eYou are already editing another mine. Click on this message to confirm the creation of a new mine."), null, LocalesPaths.CREATE_EDIT_OTHER);
@@ -162,6 +163,8 @@ public class Locales {
 		save = check(save, localeUtil, toText("&aYou have selected mine " + ReplaceKeys.NAME + "&a."), null, LocalesPaths.LIST_MINE_SELECTED);
 		save = check(save, localeUtil, toText("&bClicking on a mine will select it to get information, edit it, or manually filling. The available actions depend on the permissions you have."), null, LocalesPaths.LIST_INFO);
 
+		save = check(save, localeUtil, toText("&cMine with this UUID was not found."), null, LocalesPaths.SELECT_EXCEPTION);
+
 		save = check(save, localeUtil, toText("&aPlugin reloaded."), null, LocalesPaths.RELOAD_SUCCESS);
 		
 		if(save) save(localeUtil);
@@ -210,6 +213,7 @@ public class Locales {
 		save = check(save, localeUtil, toText("&f- &aСохранить выбранную шахту."), null, LocalesPaths.MAIN_SAVE);
 		save = check(save, localeUtil, toText("&f- &aЗаполнить шахту."), null, LocalesPaths.MAIN_FILL);
 		save = check(save, localeUtil, toText("&f- &aСписок шахт."), null, LocalesPaths.MAIN_LIST);
+		save = check(save, localeUtil, toText("&f- &aВыбор шахты по ее UUID."), null, LocalesPaths.MAIN_SELECT);
 		save = check(save, localeUtil, toText("&f- &aПерезагрузка плагина."), null, LocalesPaths.MAIN_RELOAD);
 
 		save = check(save, localeUtil, toText("&eВы уже редактируете другую шахту. Кликните на это сообщение для подтверждения создания новой шахты."), null, LocalesPaths.CREATE_EDIT_OTHER);
@@ -266,6 +270,8 @@ public class Locales {
 		save = check(save, localeUtil, toText("&7[&cTP&6] "), null, LocalesPaths.LIST_MINE_TELEPORT_DISALLOWED);
 		save = check(save, localeUtil, toText("&aВы выбрали шахту " + ReplaceKeys.NAME + "&a."), null, LocalesPaths.LIST_MINE_SELECTED);
 		save = check(save, localeUtil, toText("&bКлик по шахте выберет ее для получения информации, редактирования или ручного заполнения. Доступные действия зависят от имеющихся у вас разрешений."), null, LocalesPaths.LIST_INFO);
+
+		save = check(save, localeUtil, toText("&cШахта с таким UUID не найдена."), null, LocalesPaths.SELECT_EXCEPTION);
 
 		save = check(save, localeUtil, toText("&aПлагин перезагружен."), null, LocalesPaths.RELOAD_SUCCESS);
 

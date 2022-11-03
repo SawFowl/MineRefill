@@ -25,6 +25,10 @@ public class Positions {
 		return max == null ? null : max.getVector3i();
 	}
 
+	public Vector3i getCenter() {
+		return Vector3i.from(max.x - ((max.x - min.x) / 2), max.y - ((max.y - min.y) / 2), max.z - ((max.z - min.z) / 2));
+	}
+
 	public void setFirst(Vector3i vector3i) {
 		min = new Position(vector3i);
 		calc();

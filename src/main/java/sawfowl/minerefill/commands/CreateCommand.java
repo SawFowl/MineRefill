@@ -14,8 +14,8 @@ import org.spongepowered.api.util.locale.Locales;
 import net.kyori.adventure.audience.Audience;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
+import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.configure.LocalesPaths;
-import sawfowl.minerefill.data.Mine;
 
 public class CreateCommand extends AbstractCommand {
 
@@ -29,7 +29,7 @@ public class CreateCommand extends AbstractCommand {
 		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : Locales.DEFAULT;
 		if(!(audience instanceof ServerPlayer)) exception(plugin.getLocales().getText(locale, LocalesPaths.ONLY_PLAYER));
 		ServerPlayer player = (ServerPlayer) audience;
-		if(plugin.getEditableMines().containsKey(player.uniqueId())) {
+		if(plugin.getMineAPI().getEditableMines().containsKey(player.uniqueId().toString())) {
 			player.sendMessage(plugin.getLocales().getText(locale, LocalesPaths.CREATE_EDIT_OTHER).clickEvent(SpongeComponents.executeCallback(cause -> {
 				create(player);
 			})));
@@ -38,8 +38,8 @@ public class CreateCommand extends AbstractCommand {
 	}
 
 	private void create(ServerPlayer player) {
-		Mine mine = new Mine(player.world());
-		plugin.getEditableMines().put(player.uniqueId(), mine);
+		Mine mine = Mine.create(player.world());
+		plugin.getMineAPI().getEditableMines().put(player.uniqueId().toString(), mine);
 		player.sendMessage(plugin.getLocales().getText(player.locale(), LocalesPaths.CREATE_SUCCESS));
 	}
 

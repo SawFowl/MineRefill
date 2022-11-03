@@ -33,17 +33,18 @@ public class ListCommand extends AbstractCommand {
 	public CommandResult execute(CommandContext context) throws CommandException {
 		Audience audience = context.cause().audience();
 		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : Locales.DEFAULT;
-		List<Component> list = audience instanceof ServerPlayer ? plugin.getMines().stream().map(mine -> (!((ServerPlayer) audience).hasPermission(Permissions.teleport(mine.getUniqueid())) ? plugin.getLocales().getText(locale, LocalesPaths.LIST_MINE_TELEPORT_DISALLOWED) : plugin.getLocales().getText(locale, LocalesPaths.LIST_MINE_TELEPORT_ALLOWED).clickEvent(SpongeComponents.executeCallback(cause -> {
+		boolean isPlayer = audience instanceof ServerPlayer;
+		List<Component> list = isPlayer ? plugin.getMineAPI().getMines().stream().map(mine -> (!((ServerPlayer) audience).hasPermission(Permissions.teleport(mine.getUniqueid())) ? plugin.getLocales().getText(locale, LocalesPaths.LIST_MINE_TELEPORT_DISALLOWED) : plugin.getLocales().getText(locale, LocalesPaths.LIST_MINE_TELEPORT_ALLOWED).clickEvent(SpongeComponents.executeCallback(cause -> {
 			if(mine.getWorld().isPresent()) {
 				((ServerPlayer) audience).setLocation(ServerLocation.of(mine.getWorld().get(), mine.getPositions().getMax()));
 			} else audience.sendMessage(plugin.getLocales().getText(locale, LocalesPaths.LIST_WORLD_NOT_LOADED));
 		})).append(mine.getDisplayName(locale).clickEvent(SpongeComponents.executeCallback(cause -> {
-				plugin.addEditableMine(((ServerPlayer) audience).uniqueId(), mine);
+				plugin.getMineAPI().addEditableMine(((ServerPlayer) audience).uniqueId().toString(), mine);
 				audience.sendMessage(plugin.getLocales().getTextReplaced2(locale, AbstractLocaleUtil.replaceMapComponents(Arrays.asList(ReplaceKeys.NAME), Arrays.asList(mine.getDisplayName(locale))), LocalesPaths.LIST_MINE_SELECTED));
-			})).append(toText(" &a" + mine.getWorldId() + " &3" + mine.getPositions().getMin() + " &f-> &b" + mine.getPositions().getMax()))))).collect(Collectors.toList()) :
-				plugin.getMines().stream().map(mine -> (mine.getDisplayName(locale).append(toText(" &a" + mine.getWorldId() + " &3" + mine.getPositions().getMin() + " &f-> &b" + mine.getPositions().getMax())))).collect(Collectors.toList());
+			})).append(toText(" &a" + mine.getWorldId() + " &3" + mine.getPositions().getMin() + " &f➣ &b" + mine.getPositions().getMax()))))).collect(Collectors.toList()) :
+				plugin.getMineAPI().getMines().stream().map(mine -> (mine.getDisplayName(locale).append(toText(" " + mine.getUniqueid() + " &a" + mine.getWorldId() + " &3" + mine.getPositions().getMin() + " &f➣ &b" + mine.getPositions().getMax())))).collect(Collectors.toList());
 		sendPagination(audience, locale, list, plugin.getLocales().getText(locale, LocalesPaths.LIST_TITLE), plugin.getLocales().getText(locale, LocalesPaths.PADDING));
-		if(!list.isEmpty() && audience instanceof ServerPlayer && (context.cause().hasPermission(Permissions.EDIT) || context.cause().hasPermission(Permissions.FILL) || context.cause().hasPermission(Permissions.INFO))) audience.sendMessage(plugin.getLocales().getText(locale, LocalesPaths.LIST_INFO));;
+		if(!list.isEmpty() && isPlayer && (context.cause().hasPermission(Permissions.EDIT) || context.cause().hasPermission(Permissions.FILL) || context.cause().hasPermission(Permissions.INFO))) audience.sendMessage(plugin.getLocales().getText(locale, LocalesPaths.LIST_INFO));;
 		return success();
 	}
 
