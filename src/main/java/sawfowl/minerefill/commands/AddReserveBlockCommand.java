@@ -19,9 +19,9 @@ import net.kyori.adventure.audience.Audience;
 import sawfowl.localeapi.utils.AbstractLocaleUtil;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
+import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.configure.LocalesPaths;
 import sawfowl.minerefill.configure.ReplaceKeys;
-import sawfowl.minerefill.data.Mine;
 
 public class AddReserveBlockCommand extends AbstractCommand {
 
@@ -35,8 +35,8 @@ public class AddReserveBlockCommand extends AbstractCommand {
 		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : Locales.DEFAULT;
 		if(!(audience instanceof ServerPlayer)) exception(plugin.getLocales().getText(locale, LocalesPaths.ONLY_PLAYER));
 		ServerPlayer player = (ServerPlayer) audience;
-		if(!plugin.getEditableMine(player.uniqueId()).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.NOT_SELECTED));
-		Mine mine = plugin.getEditableMine(player.uniqueId()).get();
+		if(!plugin.getMineAPI().getEditableMine(player.uniqueId().toString()).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.NOT_SELECTED));
+		Mine mine = plugin.getMineAPI().getEditableMine(player.uniqueId().toString()).get();
 		Optional<RayTraceResult<LocatableBlock>> blockRay = getLocatableBlock(player);
 		if(!blockRay.isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.ADD_RESERVE_BLOCK_BLOCK_NOT_PRESENT));
 		BlockState block = blockRay.get().selectedObject().blockState();

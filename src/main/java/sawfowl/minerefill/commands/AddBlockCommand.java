@@ -20,9 +20,9 @@ import net.kyori.adventure.audience.Audience;
 import sawfowl.localeapi.utils.AbstractLocaleUtil;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
+import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.configure.LocalesPaths;
 import sawfowl.minerefill.configure.ReplaceKeys;
-import sawfowl.minerefill.data.Mine;
 import sawfowl.minerefill.data.MineBlock;
 
 public class AddBlockCommand extends AbstractCommand {
@@ -37,9 +37,9 @@ public class AddBlockCommand extends AbstractCommand {
 		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : Locales.DEFAULT;
 		if(!(audience instanceof ServerPlayer)) exception(plugin.getLocales().getText(locale, LocalesPaths.ONLY_PLAYER));
 		ServerPlayer player = (ServerPlayer) audience;
-		if(!plugin.getEditableMine(player.uniqueId()).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.NOT_SELECTED));
+		if(!plugin.getMineAPI().getEditableMine(player.uniqueId().toString()).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.NOT_SELECTED));
 		if(!context.one(CommandParameters.CHANCE).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.ADD_BLOCK_CHANCE_NOT_PRESENT));
-		Mine mine = plugin.getEditableMine(player.uniqueId()).get();
+		Mine mine = plugin.getMineAPI().getEditableMine(player.uniqueId().toString()).get();
 		double chance = BigDecimal.valueOf(context.one(CommandParameters.CHANCE).get()).setScale(3, RoundingMode.HALF_UP).doubleValue();
 		Optional<RayTraceResult<LocatableBlock>> blockRay = getLocatableBlock(player);
 		if(!blockRay.isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.ADD_BLOCK_BLOCK_NOT_PRESENT));

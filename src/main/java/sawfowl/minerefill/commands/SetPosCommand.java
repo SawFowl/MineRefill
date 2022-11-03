@@ -16,9 +16,9 @@ import net.kyori.adventure.audience.Audience;
 import sawfowl.localeapi.utils.AbstractLocaleUtil;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
+import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.configure.LocalesPaths;
 import sawfowl.minerefill.configure.ReplaceKeys;
-import sawfowl.minerefill.data.Mine;
 
 public class SetPosCommand extends AbstractCommand {
 
@@ -32,9 +32,9 @@ public class SetPosCommand extends AbstractCommand {
 		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : Locales.DEFAULT;
 		if(!(audience instanceof ServerPlayer)) exception(plugin.getLocales().getText(locale, LocalesPaths.ONLY_PLAYER));
 		ServerPlayer player = (ServerPlayer) audience;
-		if(!plugin.getEditableMine(player.uniqueId()).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.NOT_SELECTED));
+		if(!plugin.getMineAPI().getEditableMine(player.uniqueId().toString()).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.NOT_SELECTED));
 		if(!context.one(CommandParameters.POSITION).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.SETPOS_UNSELECTED));
-		Mine mine = plugin.getEditableMine(player.uniqueId()).get();
+		Mine mine = plugin.getMineAPI().getEditableMine(player.uniqueId().toString()).get();
 		int position = context.one(CommandParameters.POSITION).get();
 		boolean first = position == 1;
 		mine.getPositions().setPosition(player.blockPosition(), first);

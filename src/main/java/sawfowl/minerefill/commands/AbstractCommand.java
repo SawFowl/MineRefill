@@ -8,20 +8,24 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.command.Command;
 import org.spongepowered.api.command.Command.Builder;
+import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.command.CommandExecutor;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.registry.RegistryTypes;
 import org.spongepowered.api.service.pagination.PaginationList;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.util.blockray.RayTrace;
 import org.spongepowered.api.util.blockray.RayTraceResult;
+import org.spongepowered.api.util.locale.LocaleSource;
 import org.spongepowered.api.world.LocatableBlock;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import sawfowl.minerefill.MineRefill;
+import sawfowl.minerefill.api.SourceData;
 
 public abstract class AbstractCommand implements CommandExecutor {
 
@@ -69,6 +73,26 @@ public abstract class AbstractCommand implements CommandExecutor {
 
 	Builder builder() {
 		return Command.builder();
+	}
+
+	SourceData createSourceData(CommandCause commandCause) {
+		return new SourceData() {
+
+			@Override
+			public Subject getSubject() {
+				return commandCause.subject();
+			}
+			
+			@Override
+			public LocaleSource getLocaleSource() {
+				return commandCause.audience() instanceof LocaleSource ? (LocaleSource) commandCause.audience() : Sponge.systemSubject();
+			}
+			
+			@Override
+			public Audience getAudience() {
+				return commandCause.audience();
+			}
+		};
 	}
 
 }
