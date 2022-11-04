@@ -93,8 +93,17 @@ javadoc {
 
 publishing {
     publications {
-        maven(MavenPublication) {
-			from components.java
+        myLibrary(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'com.github.SawFowl'
+            url = layout.buildDirectory.dir("repo")
         }
     }
 }
