@@ -90,3 +90,11 @@ javadoc {
 	include '**/*.java'
 	options.addStringOption('Xdoclint:none', '-quiet')
 }
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+			from components.java
+        }
+    }
+}
