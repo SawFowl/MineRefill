@@ -231,7 +231,7 @@ public class MineData implements Mine {
 		} else {
 			for(Vector3i vector3i : allPositions) {
 				if(random.nextBoolean()) {
-					double chance = BigDecimal.valueOf(ThreadLocalRandom.current().nextDouble(0, 100)).setScale(3, RoundingMode.HALF_UP).doubleValue();
+					double chance = BigDecimal.valueOf(ThreadLocalRandom.current().nextDouble(0, 101)).setScale(3, RoundingMode.HALF_UP).doubleValue();
 					MineBlock[] blocks = this.blocks.stream().filter(b -> (b.getChance() >= chance)).toArray(MineBlock[]::new);
 					MineBlock mineBlock = blocks.length == 0 ? null : blocks[0];
 					if(mineBlock != null) {
