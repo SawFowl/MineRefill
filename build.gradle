@@ -1,50 +1,27 @@
-buildscript {
-	repositories {
-		maven { url = 'https://maven.minecraftforge.net' }
-		maven { url = 'https://maven.blamejared.com' }
-		mavenCentral()
-	}
-	dependencies {
-		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.+', changing: true
-	}
-}
-
 plugins {
 	id("java")
 	id("java-library")
 	id("maven-publish")
-	id("eclipse")
 	id("org.spongepowered.gradle.plugin") version "2.0.2"
+	id("eclipse")
 }
-
-apply plugin: 'net.minecraftforge.gradle'
 
 group = "sawfowl.minerefill"
 version = "${major}.${minor}.${patch}-${api}-${suffix}"
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_1_8
-	targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-minecraft {
-	mappings channel: 'official', version: '1.16.5'
+	sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 repositories {
 	mavenCentral()
-
-	maven {
-		name = "Forge"
-		url = 'https://maven.minecraftforge.net'
-	}
 	maven {
 		name = "Sponge"
-		url = "https://repo.spongepowered.org/repository/maven-public/"
+		url = "https://repo.spongepowered.org/repository/maven-public"
 	}
-	maven {
+	maven { 
 		name = "JitPack"
-		url 'https://jitpack.io'
+		url 'https://jitpack.io' 
 	}
 }
 
@@ -54,11 +31,8 @@ tasks.withType(JavaCompile) {
 
 dependencies {
 	implementation "org.spongepowered:spongeapi:8.0.0"
-	implementation 'org.spongepowered:spongevanilla:1.16.5-8.0.0-RC1111:universal'
-	minecraft 'net.minecraftforge:forge:1.16.5-36.1.16'
-	implementation "com.github.SawFowl:LocaleAPI:2.2.0"
-	implementation 'com.github.SawFowl:RegionGuard:1.5.0'
-	implementation fileTree(dir: 'libs', include: '*.jar')
+	implementation "com.github.SawFowl:LocaleAPI:2.3.0"
+	//implementation fileTree(dir: 'libs', include: '*.jar')
 }
 
 sponge {
@@ -84,7 +58,7 @@ sponge {
 		dependency("localeapi") {
 			optional(false)
 			loadOrder("after")
-			version("8.0.0")
+			version("2.3.0")
 		}
 	}
 }
@@ -115,21 +89,4 @@ javadoc {
 	source configurations.doc.collect { zipTree(it) }
 	include '**/*.java'
 	options.addStringOption('Xdoclint:none', '-quiet')
-}
-
-publishing {
-    publications {
-        myLibrary(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-        }
-    }
-
-    repositories {
-        maven {
-            name = 'com.github.SawFowl'
-            url = layout.buildDirectory.dir("repo")
-        }
-    }
 }

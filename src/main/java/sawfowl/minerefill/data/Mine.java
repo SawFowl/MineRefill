@@ -33,6 +33,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import sawfowl.localeapi.api.TextUtils;
 import sawfowl.minerefill.configure.Locales;
 import sawfowl.minerefill.configure.LocalesPaths;
 import sawfowl.minerefill.configure.ReplaceKeys;
@@ -215,14 +216,7 @@ public class Mine {
 	}
 
 	private String getName() {
-		Component name = getDisplayName("CONSOLE").compact();
-		String toReturn = LegacyComponentSerializer.legacyAmpersand().serialize(name);
-		while(toReturn.indexOf('&') != -1 && !toReturn.endsWith("&") && isStyleChar(toReturn.charAt(toReturn.indexOf("&") + 1))) toReturn = toReturn.replaceAll("&" + toReturn.charAt(toReturn.indexOf("&") + 1), "");
-		return toReturn;
-	}
-
-	private boolean isStyleChar(char ch) {
-		return "0123456789abcdefklmnor".indexOf(ch) != -1;
+		return TextUtils.clearDecorations(getDisplayName("CONSOLE").compact());
 	}
 
 	private BlockState getRandomReserve() {

@@ -13,7 +13,7 @@ import org.spongepowered.api.command.parameter.CommandContext;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
-import sawfowl.localeapi.utils.AbstractLocaleUtil;
+import sawfowl.localeapi.api.TextUtils;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.api.Mine;
@@ -34,19 +34,19 @@ public class InfoCommand extends AbstractCommand {
 		if(!plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.NOT_SELECTED));
 		Mine mine = plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).get();
 		List<Component> text = new ArrayList<>();
-		text.add(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(mine.getUniqueid())), LocalesPaths.INFO_UUID));
-		text.add(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.MIN, ReplaceKeys.MAX), Arrays.asList(mine.getPositions().getMin(), mine.getPositions().getMax())), LocalesPaths.INFO_COORDS));
-		text.add(plugin.getLocales().getTextReplaced2(locale, AbstractLocaleUtil.replaceMapComponents(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(mine.isSchedule() ? plugin.getLocales().getText(locale, LocalesPaths.ENABLE) : plugin.getLocales().getText(locale, LocalesPaths.DISABLE))), LocalesPaths.INFO_AUTO_UPDATE));
-		text.add(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(mine.getScheduleInterval())), LocalesPaths.INFO_UPDATE_INTERVAL));
+		text.add(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(mine.getUniqueid())), LocalesPaths.INFO_UUID));
+		text.add(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.MIN, ReplaceKeys.MAX), Arrays.asList(mine.getPositions().getMin(), mine.getPositions().getMax())), LocalesPaths.INFO_COORDS));
+		text.add(plugin.getLocales().getTextReplaced2(locale, TextUtils.replaceMapComponents(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(mine.isSchedule() ? plugin.getLocales().getText(locale, LocalesPaths.ENABLE) : plugin.getLocales().getText(locale, LocalesPaths.DISABLE))), LocalesPaths.INFO_AUTO_UPDATE));
+		text.add(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(mine.getScheduleInterval())), LocalesPaths.INFO_UPDATE_INTERVAL));
 		if(mine.getBlocks().isEmpty()) {
-			text.add(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(0)), LocalesPaths.INFO_BLOCKS_VARIANTS));
-		} else text.add(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(mine.getBlocks().size())), LocalesPaths.INFO_BLOCKS_VARIANTS).hoverEvent(HoverEvent.showText(plugin.getLocales().getText(locale, LocalesPaths.INFO_HOVER))).clickEvent(SpongeComponents.executeCallback(cause -> {sendBlocksList(sourceData, locale, mine);})));
+			text.add(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(0)), LocalesPaths.INFO_BLOCKS_VARIANTS));
+		} else text.add(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(mine.getBlocks().size())), LocalesPaths.INFO_BLOCKS_VARIANTS).hoverEvent(HoverEvent.showText(plugin.getLocales().getText(locale, LocalesPaths.INFO_HOVER))).clickEvent(SpongeComponents.executeCallback(cause -> {sendBlocksList(sourceData, locale, mine);})));
 		if(mine.getReserveBlocks().isEmpty()) {
-			text.add(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(0)), LocalesPaths.INFO_RESERVE_BLOCKS_VARIANTS));
-		} else text.add(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(mine.getReserveBlocks().size())), LocalesPaths.INFO_RESERVE_BLOCKS_VARIANTS).hoverEvent(HoverEvent.showText(plugin.getLocales().getText(locale, LocalesPaths.INFO_HOVER))).clickEvent(SpongeComponents.executeCallback(cause -> {sendReserveBlocksList(sourceData, locale, mine);})));
+			text.add(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(0)), LocalesPaths.INFO_RESERVE_BLOCKS_VARIANTS));
+		} else text.add(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(mine.getReserveBlocks().size())), LocalesPaths.INFO_RESERVE_BLOCKS_VARIANTS).hoverEvent(HoverEvent.showText(plugin.getLocales().getText(locale, LocalesPaths.INFO_HOVER))).clickEvent(SpongeComponents.executeCallback(cause -> {sendReserveBlocksList(sourceData, locale, mine);})));
 		if(mine.getNames().isEmpty()) {
-			text.add(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(0)), LocalesPaths.INFO_NAMES_VARIANTS));
-		} else text.add(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(mine.getNames().size())), LocalesPaths.INFO_NAMES_VARIANTS).hoverEvent(HoverEvent.showText(plugin.getLocales().getText(locale, LocalesPaths.INFO_HOVER))).clickEvent(SpongeComponents.executeCallback(cause -> {sendNames(sourceData, locale, mine);})));
+			text.add(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(0)), LocalesPaths.INFO_NAMES_VARIANTS));
+		} else text.add(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.VALUE), Arrays.asList(mine.getNames().size())), LocalesPaths.INFO_NAMES_VARIANTS).hoverEvent(HoverEvent.showText(plugin.getLocales().getText(locale, LocalesPaths.INFO_HOVER))).clickEvent(SpongeComponents.executeCallback(cause -> {sendNames(sourceData, locale, mine);})));
 		sendPagination(sourceData.getAudience(), locale, text, plugin.getLocales().getText(locale, LocalesPaths.INFO_MAIN_TITLE), plugin.getLocales().getText(locale, LocalesPaths.PADDING));
 		return success();
 	}

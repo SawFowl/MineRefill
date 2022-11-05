@@ -17,7 +17,7 @@ import org.spongepowered.api.util.locale.Locales;
 import org.spongepowered.api.world.LocatableBlock;
 
 import net.kyori.adventure.audience.Audience;
-import sawfowl.localeapi.utils.AbstractLocaleUtil;
+import sawfowl.localeapi.api.TextUtils;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.api.Mine;
@@ -46,7 +46,7 @@ public class AddBlockCommand extends AbstractCommand {
 		MineBlock mineBlock = new MineBlock(blockRay.get().selectedObject().blockState(), chance);
 		if(mine.getBlocks().contains(mineBlock)) exception(plugin.getLocales().getText(locale, LocalesPaths.ADD_BLOCK_ALREADY_EXIST));
 		mine.addBlock(mineBlock);
-		player.sendMessage(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.BLOCK, ReplaceKeys.CHANCE), Arrays.asList(mineBlock.getSerializedBlock().getType(), chance)), LocalesPaths.ADD_BLOCK_SUCCESS));
+		player.sendMessage(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.BLOCK, ReplaceKeys.CHANCE), Arrays.asList(mineBlock.getSerializedBlock().getType(), chance)), LocalesPaths.ADD_BLOCK_SUCCESS));
 		return success();
 	}
 

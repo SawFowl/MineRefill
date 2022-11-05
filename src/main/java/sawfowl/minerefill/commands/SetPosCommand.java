@@ -13,7 +13,7 @@ import org.spongepowered.api.util.locale.LocaleSource;
 import org.spongepowered.api.util.locale.Locales;
 
 import net.kyori.adventure.audience.Audience;
-import sawfowl.localeapi.utils.AbstractLocaleUtil;
+import sawfowl.localeapi.api.TextUtils;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.api.Mine;
@@ -43,7 +43,7 @@ public class SetPosCommand extends AbstractCommand {
 				player.sendBlockChange(corner, BlockTypes.YELLOW_STAINED_GLASS.get().defaultState());
 			});
 		} else player.sendBlockChange(player.blockPosition(), (first ? BlockTypes.RED_STAINED_GLASS : BlockTypes.LIGHT_BLUE_STAINED_GLASS).get().defaultState());
-		player.sendMessage(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.POSITION), Arrays.asList(position)), LocalesPaths.SETPOS_SUCCESS));
+		player.sendMessage(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.POSITION), Arrays.asList(position)), LocalesPaths.SETPOS_SUCCESS));
 		return success();
 	}
 

@@ -8,7 +8,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
 
-import sawfowl.localeapi.utils.AbstractLocaleUtil;
+import sawfowl.localeapi.api.TextUtils;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.api.Mine;
@@ -31,7 +31,7 @@ public class SetIntervalCommand extends AbstractCommand {
 		Mine mine = plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).get();
 		int time = context.one(CommandParameters.TIME).get();
 		mine.setScheduleTime(time);
-		sourceData.sendMessage(plugin.getLocales().getTextReplaced1(locale, AbstractLocaleUtil.replaceMap(Arrays.asList(ReplaceKeys.TIME), Arrays.asList(time)), LocalesPaths.INTERVAL_SUCCESS));
+		sourceData.sendMessage(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.TIME), Arrays.asList(time)), LocalesPaths.INTERVAL_SUCCESS));
 		return success();
 	}
 

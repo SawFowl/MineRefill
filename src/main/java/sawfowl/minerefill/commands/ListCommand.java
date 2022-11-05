@@ -17,7 +17,7 @@ import org.spongepowered.api.world.server.ServerLocation;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import sawfowl.localeapi.utils.AbstractLocaleUtil;
+import sawfowl.localeapi.api.TextUtils;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.configure.LocalesPaths;
@@ -40,7 +40,7 @@ public class ListCommand extends AbstractCommand {
 			} else audience.sendMessage(plugin.getLocales().getText(locale, LocalesPaths.LIST_WORLD_NOT_LOADED));
 		})).append(mine.getDisplayName(locale).clickEvent(SpongeComponents.executeCallback(cause -> {
 				plugin.getMineAPI().addEditableMine(((ServerPlayer) audience).uniqueId().toString(), mine);
-				audience.sendMessage(plugin.getLocales().getTextReplaced2(locale, AbstractLocaleUtil.replaceMapComponents(Arrays.asList(ReplaceKeys.NAME), Arrays.asList(mine.getDisplayName(locale))), LocalesPaths.LIST_MINE_SELECTED));
+				audience.sendMessage(plugin.getLocales().getTextReplaced2(locale, TextUtils.replaceMapComponents(Arrays.asList(ReplaceKeys.NAME), Arrays.asList(mine.getDisplayName(locale))), LocalesPaths.LIST_MINE_SELECTED));
 			})).append(toText(" &a" + mine.getWorldId() + " &3" + mine.getPositions().getMin() + " &f➣ &b" + mine.getPositions().getMax()))))).collect(Collectors.toList()) :
 				plugin.getMineAPI().getMines().stream().map(mine -> (mine.getDisplayName(locale).append(toText(" " + mine.getUniqueid() + " &a" + mine.getWorldId() + " &3" + mine.getPositions().getMin() + " &f➣ &b" + mine.getPositions().getMax())))).collect(Collectors.toList());
 		sendPagination(audience, locale, list, plugin.getLocales().getText(locale, LocalesPaths.LIST_TITLE), plugin.getLocales().getText(locale, LocalesPaths.PADDING));

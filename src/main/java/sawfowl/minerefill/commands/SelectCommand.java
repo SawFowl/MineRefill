@@ -11,7 +11,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
 
-import sawfowl.localeapi.utils.AbstractLocaleUtil;
+import sawfowl.localeapi.api.TextUtils;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.api.Mine;
@@ -32,7 +32,7 @@ public class SelectCommand extends AbstractCommand {
 		Optional<Mine> mine = getMine(context);
 		if(!mine.isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.SELECT_EXCEPTION));
 		plugin.getMineAPI().addEditableMine(sourceData.getIdentifier(), mine.get());
-		sourceData.getAudience().sendMessage(plugin.getLocales().getTextReplaced2(locale, AbstractLocaleUtil.replaceMapComponents(Arrays.asList(ReplaceKeys.NAME), Arrays.asList(mine.get().getDisplayName(locale))), LocalesPaths.LIST_MINE_SELECTED));
+		sourceData.getAudience().sendMessage(plugin.getLocales().getTextReplaced2(locale, TextUtils.replaceMapComponents(Arrays.asList(ReplaceKeys.NAME), Arrays.asList(mine.get().getDisplayName(locale))), LocalesPaths.LIST_MINE_SELECTED));
 		return success();
 	}
 
