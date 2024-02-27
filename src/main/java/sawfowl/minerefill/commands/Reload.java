@@ -14,9 +14,9 @@ import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.configure.LocalesPaths;
 
-public class ReloadCommand extends AbstractCommand {
+public class Reload extends AbstractCommand {
 
-	public ReloadCommand(MineRefill plugin) {
+	public Reload(MineRefill plugin) {
 		super(plugin);
 	}
 
@@ -25,7 +25,7 @@ public class ReloadCommand extends AbstractCommand {
 		Audience audience = context.cause().audience();
 		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : Locales.DEFAULT;
 		plugin.reload();
-		audience.sendMessage(plugin.getLocales().getText(locale, LocalesPaths.RELOAD_SUCCESS));
+		audience.sendMessage(plugin.getLocales().getComponent(locale, LocalesPaths.RELOAD_SUCCESS));
 		return success();
 	}
 

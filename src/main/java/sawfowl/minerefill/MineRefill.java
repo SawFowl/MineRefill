@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.Command;
@@ -19,7 +20,6 @@ import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationOptions;
-import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.reference.ConfigurationReference;
 import org.spongepowered.configurate.reference.ValueReference;
 import org.spongepowered.plugin.PluginContainer;
@@ -27,11 +27,12 @@ import org.spongepowered.plugin.builtin.jvm.Plugin;
 
 import com.google.inject.Inject;
 
-import sawfowl.localeapi.event.LocaleServiseEvent;
+import sawfowl.localeapi.api.event.LocaleServiseEvent;
+import sawfowl.localeapi.api.serializetools.SerializeOptions;
 import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.api.MineAPI;
 import sawfowl.minerefill.api.event.PostMineAPIEvent;
-import sawfowl.minerefill.commands.MainCommand;
+import sawfowl.minerefill.commands.Main;
 import sawfowl.minerefill.configure.Config;
 import sawfowl.minerefill.configure.Locales;
 
@@ -60,9 +61,8 @@ public class MineRefill {
 
 	@Listener
 	public void onPostLocaleAPI(LocaleServiseEvent.Construct event) {
-		options = event.getLocaleService().getConfigurationOptions();
 		try {
-			configurationReference = HoconConfigurationLoader.builder().defaultOptions(event.getLocaleService().getConfigurationOptions()).path(configDir.resolve("Config.conf")).build().loadToReference();
+			configurationReference = SerializeOptions.createHoconConfigurationLoader(2).path(configDir.resolve("Config.conf")).build().loadToReference();
 			this.config = configurationReference.referenceTo(Config.class);
 			configurationReference.save();
 		} catch (ConfigurateException e) {
@@ -76,7 +76,7 @@ public class MineRefill {
 
 	@Listener
 	public void onCommandRegister(RegisterCommandEvent<Command.Parameterized> event) {
-		event.register(pluginContainer, new MainCommand(instance).build(), "minerefill", "mine");
+		event.register(pluginContainer, new Main(instance).build(), "minerefill", "mine");
 	}
 
 	@Listener

@@ -1,6 +1,5 @@
 package sawfowl.minerefill.commands;
 
-import java.util.Arrays;
 import java.util.Locale;
 
 import org.spongepowered.api.block.BlockTypes;
@@ -13,16 +12,16 @@ import org.spongepowered.api.util.locale.LocaleSource;
 import org.spongepowered.api.util.locale.Locales;
 
 import net.kyori.adventure.audience.Audience;
-import sawfowl.localeapi.api.TextUtils;
+
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.configure.LocalesPaths;
 import sawfowl.minerefill.configure.ReplaceKeys;
 
-public class SetPosCommand extends AbstractCommand {
+public class SetPos extends AbstractCommand {
 
-	public SetPosCommand(MineRefill plugin) {
+	public SetPos(MineRefill plugin) {
 		super(plugin);
 	}
 
@@ -30,10 +29,10 @@ public class SetPosCommand extends AbstractCommand {
 	public CommandResult execute(CommandContext context) throws CommandException {
 		Audience audience = context.cause().audience();
 		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : Locales.DEFAULT;
-		if(!(audience instanceof ServerPlayer)) exception(plugin.getLocales().getText(locale, LocalesPaths.ONLY_PLAYER));
+		if(!(audience instanceof ServerPlayer)) exception(plugin.getLocales().getComponent(locale, LocalesPaths.ONLY_PLAYER));
 		ServerPlayer player = (ServerPlayer) audience;
-		if(!plugin.getMineAPI().getEditableMine(player.uniqueId().toString()).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.NOT_SELECTED));
-		if(!context.one(CommandParameters.POSITION).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.SETPOS_UNSELECTED));
+		if(!plugin.getMineAPI().getEditableMine(player.uniqueId().toString()).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.NOT_SELECTED));
+		if(!context.one(CommandParameters.POSITION).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.SETPOS_UNSELECTED));
 		Mine mine = plugin.getMineAPI().getEditableMine(player.uniqueId().toString()).get();
 		int position = context.one(CommandParameters.POSITION).get();
 		boolean first = position == 1;
@@ -43,7 +42,7 @@ public class SetPosCommand extends AbstractCommand {
 				player.sendBlockChange(corner, BlockTypes.YELLOW_STAINED_GLASS.get().defaultState());
 			});
 		} else player.sendBlockChange(player.blockPosition(), (first ? BlockTypes.RED_STAINED_GLASS : BlockTypes.LIGHT_BLUE_STAINED_GLASS).get().defaultState());
-		player.sendMessage(plugin.getLocales().getTextReplaced1(locale, TextUtils.replaceMap(Arrays.asList(ReplaceKeys.POSITION), Arrays.asList(position)), LocalesPaths.SETPOS_SUCCESS));
+		player.sendMessage(getText(locale, LocalesPaths.SETPOS_SUCCESS).replace(ReplaceKeys.POSITION, position).get());
 		return success();
 	}
 

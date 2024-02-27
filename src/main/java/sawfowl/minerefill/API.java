@@ -138,10 +138,10 @@ class API implements MineAPI {
 	private void sendMessage(Mine mine, Object[] path) {
 		if(plugin.getConfig().isActionBarMessages()) {
 			getOnlinePlayers().forEach(player -> {
-				player.sendActionBar(replace(plugin.getLocales().getText(player.locale(), path), player.locale(), mine));
+				player.sendActionBar(replace(plugin.getLocales().getComponent(player.locale(), path), player.locale(), mine));
 			});
 		} else getOnlinePlayers().forEach(player -> {
-			player.sendMessage(replace(plugin.getLocales().getText(player.locale(), path), player.locale(), mine));
+			player.sendMessage(replace(plugin.getLocales().getComponent(player.locale(), path), player.locale(), mine));
 		});
 	}
 

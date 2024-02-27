@@ -1,14 +1,14 @@
 package sawfowl.minerefill.configure;
 
 import java.util.Locale;
-import java.util.Map;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import sawfowl.localeapi.api.ConfigTypes;
 import sawfowl.localeapi.api.LocaleService;
-import sawfowl.localeapi.utils.AbstractLocaleUtil;
+import sawfowl.localeapi.api.PluginLocale;
+import sawfowl.localeapi.api.Text;
 
 public class Locales {
 
@@ -23,30 +23,26 @@ public class Locales {
 	}
 
 	public String getString(Locale locale, Object... path) {
-		return LegacyComponentSerializer.legacyAmpersand().serialize(getText(locale, path));
+		return LegacyComponentSerializer.legacyAmpersand().serialize(getComponent(locale, path));
 	}
 
-	public Component getText(Locale locale, Object... path) {
-		return getAbstractLocaleUtil(locale).getComponent(json, path);
+	public Text getText(Locale locale, Object... path) {
+		return getPluginLocale(locale).getText(path);
 	}
 
-	public Component getTextReplaced1(Locale locale, Map<String, String> map, Object... path) {
-		return getAbstractLocaleUtil(locale).getComponentReplaced1(map, json, path);
-	}
-
-	public Component getTextReplaced2(Locale locale, Map<String, Component> map, Object... path) {
-		return getAbstractLocaleUtil(locale).getComponentReplaced2(map, json, path);
+	public Component getComponent(Locale locale, Object... path) {
+		return getPluginLocale(locale).getComponent(path);
 	}
 
 	public Component getTextFromDefault(Object... path) {
-		return getAbstractLocaleUtil(org.spongepowered.api.util.locale.Locales.DEFAULT).getComponent(json, path);
+		return getPluginLocale(org.spongepowered.api.util.locale.Locales.DEFAULT).getComponent(json, path);
 	}
 
 	public LocaleService getLocaleService() {
 		return localeService;
 	}
 
-	public AbstractLocaleUtil getAbstractLocaleUtil(Locale locale) {
+	public PluginLocale getPluginLocale(Locale locale) {
 		return localeService.getPluginLocales(pluginid).get(locale);
 	}
 
@@ -54,15 +50,15 @@ public class Locales {
 		return LegacyComponentSerializer.legacyAmpersand().deserialize(string);
 	}
 
-	private boolean check(boolean save, AbstractLocaleUtil localeUtil, Component value, String comment, Object... path) {
-		return localeUtil.checkComponent(json, value, comment, path) || save;
+	private boolean check(boolean save, PluginLocale pluginLocale, Component value, String comment, Object... path) {
+		return pluginLocale.checkComponent(json, value, comment, path) || save;
 	}
 
-	private void save(AbstractLocaleUtil localeUtil) {
-		localeUtil.saveLocaleNode();
+	private void save(PluginLocale pluginLocale) {
+		pluginLocale.saveLocaleNode();
 	}
 
-	private void generateDefault(AbstractLocaleUtil localeUtil) {
+	private void generateDefault(PluginLocale localeUtil) {
 
 		boolean save = check(false, localeUtil, toText("&cOnly the player can execute this command."), null, LocalesPaths.ONLY_PLAYER);
 
@@ -170,7 +166,7 @@ public class Locales {
 		if(save) save(localeUtil);
 	}
 
-	private void generateRu(AbstractLocaleUtil localeUtil) {
+	private void generateRu(PluginLocale localeUtil) {
 
 		boolean save = check(false, localeUtil, toText("Только игрок может выполнять эту команду."), null, LocalesPaths.ONLY_PLAYER);
 

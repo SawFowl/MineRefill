@@ -17,9 +17,9 @@ import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.configure.LocalesPaths;
 
-public class CreateCommand extends AbstractCommand {
+public class Create extends AbstractCommand {
 
-	public CreateCommand(MineRefill plugin) {
+	public Create(MineRefill plugin) {
 		super(plugin);
 	}
 
@@ -27,10 +27,10 @@ public class CreateCommand extends AbstractCommand {
 	public CommandResult execute(CommandContext context) throws CommandException {
 		Audience audience = context.cause().audience();
 		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : Locales.DEFAULT;
-		if(!(audience instanceof ServerPlayer)) exception(plugin.getLocales().getText(locale, LocalesPaths.ONLY_PLAYER));
+		if(!(audience instanceof ServerPlayer)) exception(plugin.getLocales().getComponent(locale, LocalesPaths.ONLY_PLAYER));
 		ServerPlayer player = (ServerPlayer) audience;
 		if(plugin.getMineAPI().getEditableMines().containsKey(player.uniqueId().toString())) {
-			player.sendMessage(plugin.getLocales().getText(locale, LocalesPaths.CREATE_EDIT_OTHER).clickEvent(SpongeComponents.executeCallback(cause -> {
+			player.sendMessage(plugin.getLocales().getComponent(locale, LocalesPaths.CREATE_EDIT_OTHER).clickEvent(SpongeComponents.executeCallback(cause -> {
 				create(player);
 			})));
 		} else create(player);
@@ -40,7 +40,7 @@ public class CreateCommand extends AbstractCommand {
 	private void create(ServerPlayer player) {
 		Mine mine = Mine.create(player.world());
 		plugin.getMineAPI().getEditableMines().put(player.uniqueId().toString(), mine);
-		player.sendMessage(plugin.getLocales().getText(player.locale(), LocalesPaths.CREATE_SUCCESS));
+		player.sendMessage(plugin.getLocales().getComponent(player.locale(), LocalesPaths.CREATE_SUCCESS));
 	}
 
 	@Override

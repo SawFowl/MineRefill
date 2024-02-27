@@ -443,10 +443,10 @@ public class MineData implements Mine {
 	private void sendMessage(boolean actionBar, Locales locales) {
 		if(actionBar) {
 			getOnlinePlayers().forEach(player -> {
-				player.sendActionBar(replace(locales.getText(player.locale(), LocalesPaths.UPDATE_PLAYERS), player.locale()));
+				player.sendActionBar(replace(locales.getComponent(player.locale(), LocalesPaths.UPDATE_PLAYERS), player.locale()));
 			});
 		} else getOnlinePlayers().forEach(player -> {
-			player.sendMessage(replace(locales.getText(player.locale(), LocalesPaths.UPDATE_PLAYERS), player.locale()));
+			player.sendMessage(replace(locales.getComponent(player.locale(), LocalesPaths.UPDATE_PLAYERS), player.locale()));
 		});
 	}
 

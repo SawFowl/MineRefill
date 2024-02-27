@@ -1,6 +1,6 @@
 package sawfowl.minerefill.commands;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -24,6 +24,7 @@ import org.spongepowered.api.world.LocatableBlock;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import sawfowl.localeapi.api.Text;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.api.SourceData;
 
@@ -32,6 +33,14 @@ public abstract class AbstractCommand implements CommandExecutor {
 	final MineRefill plugin;
 	public AbstractCommand(MineRefill plugin) {
 		this.plugin = plugin;
+	}
+
+	Text getText(Locale locale, Object... path) {
+		return plugin.getLocales().getText(locale, path);
+	}
+
+	Component getComponent(Locale locale, Object... path) {
+		return plugin.getLocales().getComponent(locale, path);
 	}
 
 	Component toText(String string) {
@@ -60,7 +69,7 @@ public abstract class AbstractCommand implements CommandExecutor {
 				.execute();
 	}
 
-	void sendPagination(Audience audience, Locale locale, List<Component> list, Component title, Component padding) {
+	void sendPagination(Audience audience, Locale locale, Collection<Component> list, Component title, Component padding) {
 		PaginationList.builder()
 		.contents(list)
 		.linesPerPage(20)

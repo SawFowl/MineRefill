@@ -17,11 +17,11 @@ import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.api.SourceData;
 import sawfowl.minerefill.configure.LocalesPaths;
 
-public class SetNameCommand extends AbstractCommand {
+public class SetName extends AbstractCommand {
 
 	private final Parameter.Value<String> locale;
 
-	public SetNameCommand(MineRefill plugin) {
+	public SetName(MineRefill plugin) {
 		super(plugin);
 		List<String> locales = plugin.getLocales().getLocaleService().getLocalesList().stream().map(Locale::toLanguageTag).collect(Collectors.toList());
 		locales.add("CONSOLE");
@@ -32,13 +32,13 @@ public class SetNameCommand extends AbstractCommand {
 	public CommandResult execute(CommandContext context) throws CommandException {
 		SourceData sourceData = createSourceData(context.cause());
 		Locale locale = sourceData.getLocaleSource().locale();
-		if(!plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.NOT_SELECTED));
-		if(!context.one(this.locale).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.SET_NAME_LOCALE_NOT_PRESENT));
-		if(!context.one(CommandParameters.NAME).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.SET_NAME_NAME_NOT_PRESENT));
+		if(!plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.NOT_SELECTED));
+		if(!context.one(this.locale).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.SET_NAME_LOCALE_NOT_PRESENT));
+		if(!context.one(CommandParameters.NAME).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.SET_NAME_NAME_NOT_PRESENT));
 		Mine mine = plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).get();
 		Locale selectedLocale = plugin.getLocales().getLocaleService().getLocalesList().stream().filter(l -> (l.toLanguageTag().equals(context.one(this.locale).get()))).findFirst().orElse(Locales.DEFAULT);
 		mine.addDisplayName(selectedLocale, context.one(CommandParameters.NAME).get());
-		sourceData.sendMessage(plugin.getLocales().getText(locale, LocalesPaths.SET_NAME_SUCCESS));
+		sourceData.sendMessage(plugin.getLocales().getComponent(locale, LocalesPaths.SET_NAME_SUCCESS));
 		return success();
 	}
 

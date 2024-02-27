@@ -12,10 +12,11 @@ import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.api.SourceData;
 import sawfowl.minerefill.configure.LocalesPaths;
+import sawfowl.minerefill.configure.ReplaceKeys;
 
-public class DeleteCommand extends AbstractCommand {
+public class SetSchedule extends AbstractCommand {
 
-	public DeleteCommand(MineRefill plugin) {
+	public SetSchedule(MineRefill plugin) {
 		super(plugin);
 	}
 
@@ -23,12 +24,12 @@ public class DeleteCommand extends AbstractCommand {
 	public CommandResult execute(CommandContext context) throws CommandException {
 		SourceData sourceData = createSourceData(context.cause());
 		Locale locale = sourceData.getLocaleSource().locale();
-		if(!plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).isPresent()) exception(plugin.getLocales().getText(locale, LocalesPaths.NOT_SELECTED));
+		if(!plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.NOT_SELECTED));
+		if(!context.one(CommandParameters.SCHEDULE).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.SCHEDULE_NOT_PRESENT));
 		Mine mine = plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).get();
-		if(!plugin.getMineAPI().getMines().contains(mine)) exception(plugin.getLocales().getText(locale, LocalesPaths.DELETE_UNSAVED));
-		plugin.getMineAPI().deleteMine(mine);
-		plugin.getMineAPI().getEditableMines().remove(sourceData.getIdentifier());
-		sourceData.sendMessage(plugin.getLocales().getText(locale, LocalesPaths.DELETE_SUCCESS));
+		boolean value = context.one(CommandParameters.SCHEDULE).get();
+		mine.setSchedule(value);
+		sourceData.sendMessage(getText(locale, LocalesPaths.SCHEDULE_SUCCESS).replace(ReplaceKeys.VALUE, mine.isSchedule() ? plugin.getLocales().getComponent(locale, LocalesPaths.ENABLE) : plugin.getLocales().getComponent(locale, LocalesPaths.DISABLE)).get());
 		return success();
 	}
 
@@ -36,6 +37,7 @@ public class DeleteCommand extends AbstractCommand {
 	public Parameterized build() {
 		return builder()
 				.permission(Permissions.EDIT)
+				.addParameter(CommandParameters.SCHEDULE)
 				.executor(this)
 				.build();
 	}
