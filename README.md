@@ -64,6 +64,6 @@ repositories {
 }
 dependencies {
 	...
-	implementation 'com.github.SawFowl:MineRefill:1.1'
+	implementation 'com.github.SawFowl:MineRefill:2.0'
 }
 ```
