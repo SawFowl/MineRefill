@@ -8,9 +8,8 @@ import org.spongepowered.api.command.Command.Parameterized;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
-import org.spongepowered.api.command.parameter.Parameter;
-import org.spongepowered.api.util.locale.Locales;
 
+import sawfowl.localeapi.api.TextUtils;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.api.Mine;
@@ -19,25 +18,21 @@ import sawfowl.minerefill.configure.LocalesPaths;
 
 public class SetName extends AbstractCommand {
 
-	private final Parameter.Value<String> locale;
-
 	public SetName(MineRefill plugin) {
 		super(plugin);
 		List<String> locales = plugin.getLocales().getLocaleService().getLocalesList().stream().map(Locale::toLanguageTag).collect(Collectors.toList());
 		locales.add("CONSOLE");
-		locale = Parameter.choices(locales.toArray(new String[]{})).optional().key("Locale").build();
 	}
 
 	@Override
 	public CommandResult execute(CommandContext context) throws CommandException {
 		SourceData sourceData = createSourceData(context.cause());
-		Locale locale = sourceData.getLocaleSource().locale();
+		Locale locale = sourceData.getLocale();
 		if(!plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.NOT_SELECTED));
-		if(!context.one(this.locale).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.SET_NAME_LOCALE_NOT_PRESENT));
+		if(!context.one(CommandParameters.LOCALE).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.SET_NAME_LOCALE_NOT_PRESENT));
 		if(!context.one(CommandParameters.NAME).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.SET_NAME_NAME_NOT_PRESENT));
 		Mine mine = plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).get();
-		Locale selectedLocale = plugin.getLocales().getLocaleService().getLocalesList().stream().filter(l -> (l.toLanguageTag().equals(context.one(this.locale).get()))).findFirst().orElse(Locales.DEFAULT);
-		mine.addDisplayName(selectedLocale, context.one(CommandParameters.NAME).get());
+		mine.addDisplayName(context.one(CommandParameters.LOCALE).get(), TextUtils.deserialize(context.one(CommandParameters.NAME).get()));
 		sourceData.sendMessage(plugin.getLocales().getComponent(locale, LocalesPaths.SET_NAME_SUCCESS));
 		return success();
 	}
@@ -46,7 +41,7 @@ public class SetName extends AbstractCommand {
 	public Parameterized build() {
 		return builder()
 				.permission(Permissions.EDIT)
-				.addParameters(locale, CommandParameters.NAME)
+				.addParameters(CommandParameters.LOCALE, CommandParameters.NAME)
 				.executor(this)
 				.build();
 	}

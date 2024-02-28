@@ -12,7 +12,6 @@ import org.spongepowered.api.command.parameter.CommandContext;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.util.blockray.RayTraceResult;
 import org.spongepowered.api.util.locale.LocaleSource;
-import org.spongepowered.api.util.locale.Locales;
 import org.spongepowered.api.world.LocatableBlock;
 
 import net.kyori.adventure.audience.Audience;
@@ -33,7 +32,7 @@ public class AddBlock extends AbstractCommand {
 	@Override
 	public CommandResult execute(CommandContext context) throws CommandException {
 		Audience audience = context.cause().audience();
-		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : Locales.DEFAULT;
+		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : plugin.getLocales().getLocaleService().getSystemOrDefaultLocale();
 		if(!(audience instanceof ServerPlayer)) exception(plugin.getLocales().getComponent(locale, LocalesPaths.ONLY_PLAYER));
 		ServerPlayer player = (ServerPlayer) audience;
 		if(!plugin.getMineAPI().getEditableMine(player.uniqueId().toString()).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.NOT_SELECTED));

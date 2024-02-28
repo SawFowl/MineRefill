@@ -9,7 +9,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
 import org.spongepowered.api.util.locale.LocaleSource;
-import org.spongepowered.api.util.locale.Locales;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -28,7 +27,7 @@ public class Main extends AbstractCommand {
 	@Override
 	public CommandResult execute(CommandContext context) throws CommandException {
 		Audience audience = context.cause().audience();
-		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : Locales.DEFAULT;
+		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : plugin.getLocales().getLocaleService().getSystemOrDefaultLocale();
 		Collection<Component> help = new ArrayList<>();
 		if(context.cause().hasPermission(Permissions.EDIT)) {
 			help.add(toText("&a/minerefill create").clickEvent(ClickEvent.runCommand("/minerefill create")).append(toText(" ")).append(plugin.getLocales().getComponent(locale, LocalesPaths.MAIN_CREATE)));

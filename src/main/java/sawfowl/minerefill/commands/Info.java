@@ -29,14 +29,14 @@ public class Info extends AbstractCommand {
 	@Override
 	public CommandResult execute(CommandContext context) throws CommandException {
 		SourceData sourceData = createSourceData(context.cause());
-		Locale locale = sourceData.getLocaleSource().locale();
+		Locale locale = sourceData.getLocale();
 		if(!plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.NOT_SELECTED));
 		Mine mine = plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).get();
 		List<Component> text = new ArrayList<>();
 		text.add(getText(locale, LocalesPaths.INFO_UUID).replace(ReplaceKeys.VALUE, mine.getUniqueid()).get());
 		text.add(getText(locale, LocalesPaths.INFO_COORDS).replace(new String[]{ReplaceKeys.MIN, ReplaceKeys.MAX}, mine.getPositions().getMin(), mine.getPositions().getMax()).get());
 		text.add(getText(locale, LocalesPaths.INFO_AUTO_UPDATE).replace(ReplaceKeys.VALUE, mine.isSchedule() ? plugin.getLocales().getComponent(locale, LocalesPaths.ENABLE) : getComponent(locale, LocalesPaths.DISABLE)).get());
-		text.add(getText(locale, LocalesPaths.INFO_UPDATE_INTERVAL).replace(ReplaceKeys.VALUE, mine.getScheduleInterval()).get());
+		text.add(getText(locale, LocalesPaths.INFO_UPDATE_INTERVAL).replace(ReplaceKeys.VALUE, timeFormat(mine.getScheduleInterval(), locale)).get());
 		if(mine.getBlocks().isEmpty()) {
 			text.add(getText(locale, LocalesPaths.INFO_BLOCKS_VARIANTS).replace(ReplaceKeys.VALUE, 0).get());
 		} else text.add(getText(locale, LocalesPaths.INFO_BLOCKS_VARIANTS).replace(ReplaceKeys.VALUE, mine.getBlocks().size()).createCallBack(cause -> sendBlocksList(sourceData, locale, mine)).get().hoverEvent(HoverEvent.showText(plugin.getLocales().getComponent(locale, LocalesPaths.INFO_HOVER))));

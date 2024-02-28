@@ -94,7 +94,7 @@ public class Locales {
 		save = check(save, localeUtil, toText("&f- &aSet position 1 or 2."), null, LocalesPaths.MAIN_SETPOS);
 		save = check(save, localeUtil, toText("&f- &aAdd a block to the mine that you are looking at."), null, LocalesPaths.MAIN_ADD_BLOCK);
 		save = check(save, localeUtil, toText("&f- &aAdd a reserve block to the mine that you are looking at."), null, LocalesPaths.MAIN_ADD_RESERVE_BLOCK);
-		save = check(save, localeUtil, toText("&f- &aTime in seconds between mine updates."), null, LocalesPaths.MAIN_INTERVAL);
+		save = check(save, localeUtil, toText("&f- &aThe time between mine updates."), null, LocalesPaths.MAIN_INTERVAL);
 		save = check(save, localeUtil, toText("&f- &aEnable/disable automatic filling of the mine."), null, LocalesPaths.MAIN_SCHEDULE);
 		save = check(save, localeUtil, toText("&f- &aSetting the name of the mine."), null, LocalesPaths.MAIN_SET_NAME);
 		save = check(save, localeUtil, toText("&f- &aInformation about the mine."), null, LocalesPaths.MAIN_INFO);
@@ -145,6 +145,10 @@ public class Locales {
 		save = check(save, localeUtil, toText("&eLocalized names&f: &b" + ReplaceKeys.VALUE), null, LocalesPaths.INFO_NAMES_VARIANTS);
 		save = check(save, localeUtil, toText("&5Click to remove"), null, LocalesPaths.INFO_CLICK_TO_REMOVE);
 		save = check(save, localeUtil, toText("&5Click to display the list"), null, LocalesPaths.INFO_HOVER);
+		save = check(save, localeUtil, toText("&5d"), null, LocalesPaths.INFO_DAYS);
+		save = check(save, localeUtil, toText("&dh"), null, LocalesPaths.INFO_HOURS);
+		save = check(save, localeUtil, toText("&am"), null, LocalesPaths.INFO_MINUTES);
+		save = check(save, localeUtil, toText("&es"), null, LocalesPaths.INFO_SECONDS);
 
 		save = check(save, localeUtil, toText("&cMine does not have one or both positions set."), null, LocalesPaths.SAVE_POSITIONS_NOT_PRESENT);
 		save = check(save, localeUtil, toText("&cThere are no blocks in the mine."), null, LocalesPaths.SAVE_BLOCKS_NOT_PRESENT);
@@ -202,7 +206,7 @@ public class Locales {
 		save = check(save, localeUtil, toText("&f- &aУстановить позицию 1 или 2."), null, LocalesPaths.MAIN_SETPOS);
 		save = check(save, localeUtil, toText("&f- &aДобавить в шахту блок на который вы смотрите."), null, LocalesPaths.MAIN_ADD_BLOCK);
 		save = check(save, localeUtil, toText("&f- &aДобавить в шахту резервный блок на который вы смотрите."), null, LocalesPaths.MAIN_ADD_RESERVE_BLOCK);
-		save = check(save, localeUtil, toText("&f- &aВремя в секундах между обновлениями шахты."), null, LocalesPaths.MAIN_INTERVAL);
+		save = check(save, localeUtil, toText("&f- &aВремя между обновлениями шахты."), null, LocalesPaths.MAIN_INTERVAL);
 		save = check(save, localeUtil, toText("&f- &aВключение/отключение автоматического заполнения шахты."), null, LocalesPaths.MAIN_SCHEDULE);
 		save = check(save, localeUtil, toText("&f- &aУстановка имени шахты."), null, LocalesPaths.MAIN_SET_NAME);
 		save = check(save, localeUtil, toText("&f- &aИнформация о шахте."), null, LocalesPaths.MAIN_INFO);
@@ -253,6 +257,10 @@ public class Locales {
 		save = check(save, localeUtil, toText("&eЛокализованных имен&f: &b" + ReplaceKeys.VALUE), null, LocalesPaths.INFO_NAMES_VARIANTS);
 		save = check(save, localeUtil, toText("&5Клик для удаления"), null, LocalesPaths.INFO_CLICK_TO_REMOVE);
 		save = check(save, localeUtil, toText("&5Клик для отображения списка"), null, LocalesPaths.INFO_HOVER);
+		save = check(save, localeUtil, toText("&5д"), null, LocalesPaths.INFO_DAYS);
+		save = check(save, localeUtil, toText("&dч"), null, LocalesPaths.INFO_HOURS);
+		save = check(save, localeUtil, toText("&aм"), null, LocalesPaths.INFO_MINUTES);
+		save = check(save, localeUtil, toText("&eс"), null, LocalesPaths.INFO_SECONDS);
 
 		save = check(save, localeUtil, toText("&cУ шахты не установлена одна или обе позиции."), null, LocalesPaths.SAVE_POSITIONS_NOT_PRESENT);
 		save = check(save, localeUtil, toText("&cВ шахте нет никаких блоков."), null, LocalesPaths.SAVE_BLOCKS_NOT_PRESENT);

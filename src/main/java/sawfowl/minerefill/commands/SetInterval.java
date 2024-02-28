@@ -23,13 +23,13 @@ public class SetInterval extends AbstractCommand {
 	@Override
 	public CommandResult execute(CommandContext context) throws CommandException {
 		SourceData sourceData = createSourceData(context.cause());
-		Locale locale = sourceData.getLocaleSource().locale();
+		Locale locale = sourceData.getLocale();
 		if(!plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.NOT_SELECTED));
 		if(!context.one(CommandParameters.TIME).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.INTERVAL_NOT_PRESENT));
 		Mine mine = plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).get();
-		int time = context.one(CommandParameters.TIME).get();
+		long time = context.one(CommandParameters.TIME).get().getSeconds();
 		mine.setScheduleTime(time);
-		sourceData.sendMessage(getText(locale, LocalesPaths.INTERVAL_SUCCESS).replace(ReplaceKeys.TIME, time).get());
+		sourceData.sendMessage(getText(locale, LocalesPaths.INTERVAL_SUCCESS).replace(ReplaceKeys.TIME, timeFormat(time, locale)).get());
 		return success();
 	}
 

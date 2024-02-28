@@ -19,7 +19,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.service.permission.Subject;
-import org.spongepowered.api.util.locale.LocaleSource;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
@@ -108,8 +107,8 @@ class API implements MineAPI {
 					}
 					
 					@Override
-					public LocaleSource getLocaleSource() {
-						return Sponge.systemSubject();
+					public Locale getLocale() {
+						return plugin.getLocales().getLocaleService().getSystemOrDefaultLocale();
 					}
 					
 					@Override

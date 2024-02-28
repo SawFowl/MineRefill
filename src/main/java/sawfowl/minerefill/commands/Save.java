@@ -22,7 +22,7 @@ public class Save extends AbstractCommand {
 	@Override
 	public CommandResult execute(CommandContext context) throws CommandException {
 		SourceData sourceData = createSourceData(context.cause());
-		Locale locale = sourceData.getLocaleSource().locale();
+		Locale locale = sourceData.getLocale();
 		if(!plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.NOT_SELECTED));
 		Mine mine = plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).get();
 		if(mine.getPositions().getMin() == null || mine.getPositions().getMax() == null) exception(plugin.getLocales().getComponent(locale, LocalesPaths.SAVE_POSITIONS_NOT_PRESENT));

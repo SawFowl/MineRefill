@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.Logger;
+
 import org.spongepowered.api.ResourceKey;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockState;
@@ -46,8 +47,8 @@ import org.spongepowered.plugin.PluginContainer;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
 import sawfowl.minerefill.api.SourceData;
 import sawfowl.minerefill.api.event.FillEvent;
 import sawfowl.minerefill.configure.Locales;
@@ -90,9 +91,9 @@ public class MineData implements Mine {
 	@Setting("Schedule")
 	private boolean schedule = false;
 	@Setting("ScheduleTime")
-	private int scheduleInterval = 0;
+	private long scheduleInterval = 0;
 	@Setting("CustomNames")
-	private Map<String, String> customNames = new HashMap<>();
+	private Map<String, Component> customNames = new HashMap<>();
 	@Setting("AdditionalData")
 	private Map<String, Map<String, String>> additionalData = null;
 
@@ -168,7 +169,7 @@ public class MineData implements Mine {
 	}
 
 	@Override
-	public MineData setScheduleTime(int interval) {
+	public MineData setScheduleTime(long interval) {
 		scheduleInterval = interval;
 		setNextUpdate(false);
 		return instance;
@@ -181,7 +182,7 @@ public class MineData implements Mine {
 	}
 
 	@Override
-	public MineData addDisplayName(Locale locale, String name) {
+	public MineData addDisplayName(Locale locale, Component name) {
 		removeDisplayName(locale);
 		customNames.put(locale.toLanguageTag(), name);
 		return instance;
@@ -194,11 +195,11 @@ public class MineData implements Mine {
 
 	@Override
 	public Component getDisplayName(String locale) {
-		return customNames.isEmpty() ? Component.empty() : deserialize((customNames.containsKey(locale) ? customNames.get(locale) : customNames.getOrDefault(org.spongepowered.api.util.locale.Locales.DEFAULT.toLanguageTag(), customNames.values().iterator().next())));
+		return customNames.isEmpty() ? Component.empty() : (customNames.containsKey(locale) ? customNames.get(locale) : customNames.getOrDefault(org.spongepowered.api.util.locale.Locales.DEFAULT.toLanguageTag(), customNames.values().iterator().next()));
 	}
 
 	@Override
-	public Map<String, String> getNames() {
+	public Map<String, Component> getNames() {
 		return customNames;
 	}
 
@@ -428,16 +429,6 @@ public class MineData implements Mine {
 		if(getReserveBlocks().isEmpty()) return BlockTypes.AIR.get().defaultState();
 		int size = reserveBlocks.size();
 		return size == 1 ? reserveBlocks.get(0) : reserveBlocks.get(random.nextInt(size));
-	}
-
-	private Component deserialize(String string) {
-		Component component;
-		try {
-			component = GsonComponentSerializer.gson().deserialize(string);
-		} catch (Exception e) {
-			component = LegacyComponentSerializer.legacyAmpersand().deserialize(string);
-		}
-		return component.toString().contains("&") && !component.hasStyling() ? LegacyComponentSerializer.legacyAmpersand().deserialize(string) : component;
 	}
 
 	private void sendMessage(boolean actionBar, Locales locales) {

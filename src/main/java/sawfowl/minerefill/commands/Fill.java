@@ -24,7 +24,7 @@ public class Fill extends AbstractCommand {
 	@Override
 	public CommandResult execute(CommandContext context) throws CommandException {
 		SourceData sourceData = createSourceData(context.cause());
-		Locale locale = sourceData.getLocaleSource().locale();
+		Locale locale = sourceData.getLocale();
 		if(!plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.NOT_SELECTED));
 		Mine mine = plugin.getMineAPI().getEditableMine(sourceData.getIdentifier()).get();
 		Sponge.asyncScheduler().executor(plugin.getPluginContainer()).execute(() -> {

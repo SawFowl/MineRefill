@@ -18,15 +18,17 @@ import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.util.blockray.RayTrace;
 import org.spongepowered.api.util.blockray.RayTraceResult;
-import org.spongepowered.api.util.locale.LocaleSource;
 import org.spongepowered.api.world.LocatableBlock;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
 import sawfowl.localeapi.api.Text;
+import sawfowl.localeapi.api.TextUtils;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.api.SourceData;
+import sawfowl.minerefill.configure.LocalesPaths;
 
 public abstract class AbstractCommand implements CommandExecutor {
 
@@ -93,8 +95,8 @@ public abstract class AbstractCommand implements CommandExecutor {
 			}
 			
 			@Override
-			public LocaleSource getLocaleSource() {
-				return commandCause.audience() instanceof LocaleSource ? (LocaleSource) commandCause.audience() : Sponge.systemSubject();
+			public Locale getLocale() {
+				return commandCause.first(ServerPlayer.class).map(ServerPlayer::locale).orElse(plugin.getLocales().getLocaleService().getSystemOrDefaultLocale());
 			}
 			
 			@Override
@@ -102,6 +104,10 @@ public abstract class AbstractCommand implements CommandExecutor {
 				return commandCause.audience();
 			}
 		};
+	}
+
+	Component timeFormat(long second, Locale locale) {
+		return TextUtils.timeFormat(second, locale, plugin.getLocales().getComponent(locale, LocalesPaths.INFO_DAYS), plugin.getLocales().getComponent(locale, LocalesPaths.INFO_HOURS), plugin.getLocales().getComponent(locale, LocalesPaths.INFO_MINUTES), plugin.getLocales().getComponent(locale, LocalesPaths.INFO_SECONDS));
 	}
 
 }

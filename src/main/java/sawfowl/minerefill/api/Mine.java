@@ -50,17 +50,17 @@ public interface Mine {
 
 	long getScheduleInterval();
 
-	Mine setScheduleTime(int interval);
+	Mine setScheduleTime(long interval);
 
 	Mine removeDisplayName(Locale locale);
 
-	Mine addDisplayName(Locale locale, String name);
+	Mine addDisplayName(Locale locale, Component name);
 
 	Component getDisplayName(Locale locale);
 
 	Component getDisplayName(String locale);
 
-	Map<String, String> getNames();
+	Map<String, Component> getNames();
 
 	Long getLastUpdate();
 

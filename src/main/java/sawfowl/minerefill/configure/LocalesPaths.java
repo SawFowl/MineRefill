@@ -26,6 +26,9 @@ public class LocalesPaths {
 	private static final Object PATH_UPDATE = "Update";
 	private static final Object PATH_COMPLETED = "Completed";
 	private static final Object PATH_NOTIFICATIONS = "Notifications";
+	private static final Object TIME = "Days";
+	private static final Object PATH_DAYS = "Days";
+	private static final Object PATH_HOURS = "Hours";
 	private static final Object PATH_MINUTES = "Minutes";
 	private static final Object PATH_SECONDS = "Seconds";
 
@@ -114,6 +117,10 @@ public class LocalesPaths {
 	public static final Object[] INFO_NAMES_VARIANTS = {PATH_COMMANDS, PATH_COMMAND_INFO, "NamesVariants"};
 	public static final Object[] INFO_CLICK_TO_REMOVE = {PATH_COMMANDS, PATH_COMMAND_INFO, "ClickToRemove"};
 	public static final Object[] INFO_HOVER = {PATH_COMMANDS, PATH_COMMAND_INFO, "Hover"};
+	public static final Object[] INFO_DAYS = {PATH_COMMANDS, PATH_COMMAND_INFO, TIME, PATH_DAYS};
+	public static final Object[] INFO_HOURS = {PATH_COMMANDS, PATH_COMMAND_INFO, TIME, PATH_HOURS};
+	public static final Object[] INFO_MINUTES = {PATH_COMMANDS, PATH_COMMAND_INFO, TIME, PATH_MINUTES};
+	public static final Object[] INFO_SECONDS = {PATH_COMMANDS, PATH_COMMAND_INFO, TIME, PATH_SECONDS};
 
 	public static final Object[] SAVE_POSITIONS_NOT_PRESENT = {PATH_COMMANDS, PATH_COMMAND_SAVE, PATH_EXCEPTIONS, "PositionsNotPresent"};
 	public static final Object[] SAVE_BLOCKS_NOT_PRESENT = {PATH_COMMANDS, PATH_COMMAND_SAVE, PATH_EXCEPTIONS, "BlocksNotPresent"};

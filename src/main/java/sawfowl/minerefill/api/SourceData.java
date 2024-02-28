@@ -1,8 +1,9 @@
 package sawfowl.minerefill.api;
 
+import java.util.Locale;
+
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.util.Identifiable;
-import org.spongepowered.api.util.locale.LocaleSource;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -13,7 +14,7 @@ public interface SourceData {
 
 	public Audience getAudience();
 
-	public LocaleSource getLocaleSource();
+	public Locale getLocale();
 
 	public default String getIdentifier() {
 		return getSubject() instanceof Identifiable ? ((Identifiable) getSubject()).uniqueId().toString() : getSubject().identifier();
