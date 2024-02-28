@@ -45,7 +45,7 @@ public class AddBlock extends AbstractCommand {
 		MineBlock mineBlock = new MineBlock(blockRay.get().selectedObject().blockState(), chance);
 		if(mine.getBlocks().contains(mineBlock)) exception(plugin.getLocales().getComponent(locale, LocalesPaths.ADD_BLOCK_ALREADY_EXIST));
 		mine.addBlock(mineBlock);
-		player.sendMessage(getText(locale, LocalesPaths.ADD_BLOCK_SUCCESS).replace(new String[] {ReplaceKeys.BLOCK, ReplaceKeys.CHANCE}, mineBlock.getSerializedBlock().getType(), chance).get());
+		player.sendMessage(getText(locale, LocalesPaths.ADD_BLOCK_SUCCESS).replace(new String[] {ReplaceKeys.BLOCK, ReplaceKeys.CHANCE}, mineBlock.getBlockId(), chance).get());
 		return success();
 	}
 

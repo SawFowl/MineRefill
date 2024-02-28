@@ -14,20 +14,24 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.util.locale.LocaleSource;
-import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.reference.ConfigurationReference;
 import org.spongepowered.configurate.reference.ValueReference;
+
+import com.google.common.io.Files;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
+
 import sawfowl.minerefill.api.SourceData;
 import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.api.MineAPI;
@@ -75,8 +79,8 @@ class API implements MineAPI {
 	public void saveMine(Mine mine) {
 		if(!mines.contains(mine)) mines.add(mine);
 		try {
-			ConfigurationReference<CommentedConfigurationNode> mineConfigReference = HoconConfigurationLoader.builder().defaultOptions(plugin.getOptions()).path(plugin.getConfigDir().resolve("Mines" + File.separator + mine.getUniqueid().toString() + ".conf")).build().loadToReference();
-			ValueReference<MineData, CommentedConfigurationNode> mineConfig = mineConfigReference.referenceTo(MineData.class);
+			ConfigurationReference<? extends ConfigurationNode> mineConfigReference = plugin.getConfig().createMineConfigLoader(plugin.getConfigDir(), mine.getUniqueid()).loadToReference();
+			ValueReference<MineData, ? extends ConfigurationNode> mineConfig = mineConfigReference.referenceTo(MineData.class);
 			mineConfigReference.save();
 			mineConfig.setAndSave((@Nullable MineData) mine);
 		} catch (ConfigurateException e) {
@@ -122,10 +126,11 @@ class API implements MineAPI {
 	void loadMines() {
 		File minesFolder = plugin.getConfigDir().resolve("Mines").toFile();
 		if(!minesFolder.exists()) return;
-		for(File mineFile : Arrays.stream(minesFolder.listFiles()).filter(file -> (file.getName().contains(".conf"))).collect(Collectors.toList())) {
-			try {
-				ConfigurationReference<CommentedConfigurationNode> mineConfigReference = HoconConfigurationLoader.builder().defaultOptions(plugin.getOptions()).file(mineFile).build().loadToReference();
-				ValueReference<MineData, CommentedConfigurationNode> mineConfig = mineConfigReference.referenceTo(MineData.class);
+		for(File mineFile : Arrays.stream(minesFolder.listFiles()).filter(file -> isValidFile(file)).collect(Collectors.toList())) {
+			Optional<ConfigurationLoader<? extends ConfigurationNode>> loader = plugin.getConfig().createMineConfigLoader(plugin.getConfigDir(), mineFile);
+			if(loader.isPresent()) try {
+				ConfigurationReference<? extends ConfigurationNode> mineConfigReference = loader.get().loadToReference();
+				ValueReference<MineData, ? extends ConfigurationNode> mineConfig = mineConfigReference.referenceTo(MineData.class);
 				mines.add(mineConfig.get());
 			} catch (ConfigurateException e) {
 				plugin.getLogger().error(e.getLocalizedMessage());
@@ -133,6 +138,15 @@ class API implements MineAPI {
 			}
 		}
 		for(Mine mine : mines) mine.setNextUpdate(true);
+	}
+
+	private boolean isValidFile(File file) {
+		switch (Files.getFileExtension(file.getName())) {
+		case "conf": return true;
+		case "json": return true;
+		case "yml": return true;
+		default: return false;
+		}
 	}
 
 	private void sendMessage(Mine mine, Object[] path) {

@@ -53,7 +53,7 @@ public class Info extends AbstractCommand {
 	private void sendBlocksList(SourceData sourceData, Locale locale, Mine mine) {
 		List<Component> text = new ArrayList<>();
 		mine.getBlocks().forEach(block -> {
-			Component first = toText(" &a" + block.getSerializedBlock().getType() + " &f- &b" + block.getChance() + "% ");
+			Component first = toText(" &a" + block.getBlockId() + " &f- &b" + block.getChance() + "% ");
 			Component second = (!sourceData.getSubject().hasPermission(Permissions.EDIT) ? toText("") : plugin.getLocales().getComponent(locale, LocalesPaths.REMOVE).hoverEvent(HoverEvent.showText(plugin.getLocales().getComponent(locale, LocalesPaths.INFO_CLICK_TO_REMOVE))).clickEvent(SpongeComponents.executeCallback(cause -> {
 				mine.getBlocks().remove(block);
 				sendBlocksList(sourceData, locale, mine);

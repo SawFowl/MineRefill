@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 
@@ -13,21 +14,21 @@ public class MineBlock {
 	public MineBlock(){}
 
 	public MineBlock(BlockState block, double chance) {
-		this.block = new SerializedBlock(block);
+		this.block = block;
 		this.chance = chance;
 	}
 
 	@Setting("Block")
-	private SerializedBlock block;
+	private BlockState block;
 	@Setting("Chance")
 	private double chance;
 
 	public BlockState getBlockState() {
-		return block.getBlockState();
+		return block.copy();
 	}
 
-	public SerializedBlock getSerializedBlock() {
-		return block;
+	public String getBlockId() {
+		return BlockTypes.registry().valueKey(block.type()).asString();
 	}
 
 	public double getChance() {

@@ -19,7 +19,6 @@ import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
 import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.reference.ConfigurationReference;
 import org.spongepowered.configurate.reference.ValueReference;
 import org.spongepowered.plugin.PluginContainer;
@@ -48,7 +47,6 @@ public class MineRefill {
 
 	private ConfigurationReference<CommentedConfigurationNode> configurationReference;
 	private ValueReference<Config, CommentedConfigurationNode> config;
-	private ConfigurationOptions options;
 
 	@Inject
 	public MineRefill(PluginContainer pluginContainer, @ConfigDir(sharedRoot = false) Path configDirectory) {
@@ -137,10 +135,6 @@ public class MineRefill {
 
 	public Config getConfig() {
 		return config.get();
-	}
-
-	public ConfigurationOptions getOptions() {
-		return options;
 	}
 
 	public MineAPI getMineAPI() {
