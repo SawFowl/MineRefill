@@ -17,8 +17,6 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 
-import com.google.common.io.Files;
-
 import sawfowl.localeapi.api.ConfigTypes;
 import sawfowl.localeapi.api.serializetools.SerializeOptions;
 
@@ -104,7 +102,7 @@ public class Config {
 	}
 
 	public Optional<ConfigurationLoader<? extends ConfigurationNode>> createMineConfigLoader(Path configDir, File file) {
-		String type = "." + Files.getFileExtension(file.getName());
+		String type = "." + getExtension(file.getName());
 		ConfigurationLoader<? extends ConfigurationNode> loader;
 		switch (type) {
 			case ".json": {
@@ -133,6 +131,20 @@ public class Config {
 			}
 		}
 		return Optional.ofNullable(loader);
+	}
+
+	String getExtension(String fileName) {
+		char ch;
+		int len;
+		if(fileName==null || 
+				(len = fileName.length())==0 ||
+				(ch = fileName.charAt(len-1))=='/' || ch=='\\' ||
+				 ch=='.' )
+			return "";
+		int dotInd = fileName.lastIndexOf('.'),
+			sepInd = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
+		if(dotInd<=sepInd) return "";
+		else return fileName.substring(dotInd+1).toLowerCase();
 	}
 
 }

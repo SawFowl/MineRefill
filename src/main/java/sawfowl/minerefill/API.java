@@ -25,8 +25,6 @@ import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.reference.ConfigurationReference;
 import org.spongepowered.configurate.reference.ValueReference;
 
-import com.google.common.io.Files;
-
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -140,7 +138,7 @@ class API implements MineAPI {
 	}
 
 	private boolean isValidFile(File file) {
-		switch (Files.getFileExtension(file.getName())) {
+		switch (getExtension(file.getName())) {
 		case "conf": return true;
 		case "json": return true;
 		case "yml": return true;
@@ -164,6 +162,20 @@ class API implements MineAPI {
 
 	private Component replace(Component component, Locale locale, Mine mine) {
 		return component.replaceText(TextReplacementConfig.builder().match(ReplaceKeys.NAME).replacement(mine.getDisplayName(locale)).build());
+	}
+
+	String getExtension(String fileName) {
+		char ch;
+		int len;
+		if(fileName==null || 
+				(len = fileName.length())==0 ||
+				(ch = fileName.charAt(len-1))=='/' || ch=='\\' ||
+				 ch=='.' )
+			return "";
+		int dotInd = fileName.lastIndexOf('.'),
+			sepInd = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
+		if(dotInd<=sepInd) return "";
+		else return fileName.substring(dotInd+1).toLowerCase();
 	}
 
 }
