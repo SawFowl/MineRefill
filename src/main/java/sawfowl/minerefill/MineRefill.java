@@ -17,17 +17,14 @@ import org.spongepowered.api.event.EventContextKeys;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
 import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
-import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.reference.ConfigurationReference;
-import org.spongepowered.configurate.reference.ValueReference;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 
 import com.google.inject.Inject;
 
-import sawfowl.localeapi.api.event.LocaleServiseEvent;
-import sawfowl.localeapi.api.serializetools.SerializeOptions;
+import sawfowl.localeapi.api.ConfigTypes;
+import sawfowl.localeapi.api.config.ReferencedConfig;
+import sawfowl.localeapi.api.serializetools.ItemStackSerializerType;
 import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.api.MineAPI;
 import sawfowl.minerefill.api.event.PostMineAPIEvent;
@@ -44,9 +41,7 @@ public class MineRefill {
 	private Locales locales;
 	private Path configDir;
 	private MineAPI mineAPI;
-
-	private ConfigurationReference<CommentedConfigurationNode> configurationReference;
-	private ValueReference<Config, CommentedConfigurationNode> config;
+	private ReferencedConfig<Config> config;
 
 	@Inject
 	public MineRefill(PluginContainer pluginContainer, @ConfigDir(sharedRoot = false) Path configDirectory) {
@@ -55,18 +50,8 @@ public class MineRefill {
 		this.pluginContainer = pluginContainer;
 		configDir = configDirectory;
 		mineAPI = new API(instance);
-	}
-
-	@Listener
-	public void onPostLocaleAPI(LocaleServiseEvent.Construct event) {
-		try {
-			configurationReference = SerializeOptions.createHoconConfigurationLoader(2).path(configDir.resolve("Config.conf")).build().loadToReference();
-			this.config = configurationReference.referenceTo(Config.class);
-			configurationReference.save();
-		} catch (ConfigurateException e) {
-			logger.error(e.getLocalizedMessage());
-		}
-		locales = new Locales(event.getLocaleService(), getConfig().isJsonLocales());
+		config = ReferencedConfig.create(pluginContainer, configDirectory, "Config", ConfigTypes.HOCON, ItemStackSerializerType.JSON, null, Config.class);
+		locales = new Locales(pluginContainer);
 		if(!configDir.resolve("Mines").toFile().exists()) {
 			configDir.resolve("Mines").toFile().mkdir();
 		}
@@ -95,12 +80,7 @@ public class MineRefill {
 	}
 
 	public void reload() {
-		try {
-			configurationReference.load();
-			config = configurationReference.referenceTo(Config.class);
-		} catch (ConfigurateException e) {
-			logger.error(e.getLocalizedMessage());
-		}
+		config.load();
 		mineAPI.getMines().clear();
 		((API) mineAPI).loadMines();
 		if(mineAPI.getEditableMines().isEmpty()) return;

@@ -9,7 +9,7 @@ import org.spongepowered.api.command.parameter.CommandContext;
 import org.spongepowered.api.util.locale.LocaleSource;
 
 import net.kyori.adventure.audience.Audience;
-
+import sawfowl.localeapi.api.LocaleService;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.configure.LocalesPaths;
@@ -23,7 +23,7 @@ public class Reload extends AbstractCommand {
 	@Override
 	public CommandResult execute(CommandContext context) throws CommandException {
 		Audience audience = context.cause().audience();
-		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : plugin.getLocales().getLocaleService().getSystemOrDefaultLocale();
+		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : LocaleService.getInstance().getSystemOrDefaultLocale();
 		plugin.reload();
 		audience.sendMessage(plugin.getLocales().getComponent(locale, LocalesPaths.RELOAD_SUCCESS));
 		return success();

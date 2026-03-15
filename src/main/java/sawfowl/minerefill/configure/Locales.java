@@ -2,24 +2,26 @@ package sawfowl.minerefill.configure;
 
 import java.util.Locale;
 
+import org.spongepowered.plugin.PluginContainer;
+
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-
 import sawfowl.localeapi.api.ConfigTypes;
 import sawfowl.localeapi.api.LocaleService;
-import sawfowl.localeapi.api.PluginLocale;
+import sawfowl.localeapi.api.LocalesList;
 import sawfowl.localeapi.api.Text;
+import sawfowl.localeapi.api.Translation;
+import sawfowl.localeapi.api.config.locale.PluginLocale;
 
 public class Locales {
 
-	private final LocaleService localeService;
-	private final boolean json;
-	private final String pluginid = "minerefill";
-	public Locales(LocaleService localeService, boolean json) {
-		this.localeService = localeService;
-		this.json = json;
-		generateDefault(localeService.createPluginLocale(pluginid, ConfigTypes.JSON, org.spongepowered.api.util.locale.Locales.DEFAULT));
-		generateRu(localeService.createPluginLocale(pluginid, ConfigTypes.JSON, org.spongepowered.api.util.locale.Locales.RU_RU));
+	private final LocalesList<Translation> locales;
+	public Locales(PluginContainer container) {
+		this.locales = LocaleService.getInstance().createLocales(container);
+		if(!locales.contains(org.spongepowered.api.util.locale.Locales.DEFAULT)) locales.createSimpleTranslation(ConfigTypes.JSON, org.spongepowered.api.util.locale.Locales.DEFAULT);
+		if(!locales.contains(org.spongepowered.api.util.locale.Locales.RU_RU)) locales.createSimpleTranslation(ConfigTypes.JSON, org.spongepowered.api.util.locale.Locales.RU_RU);
+		generateDefault(locales.getSimple(org.spongepowered.api.util.locale.Locales.DEFAULT));
+		generateRu(locales.getSimple(org.spongepowered.api.util.locale.Locales.DEFAULT));
 	}
 
 	public String getString(Locale locale, Object... path) {
@@ -35,15 +37,11 @@ public class Locales {
 	}
 
 	public Component getTextFromDefault(Object... path) {
-		return getPluginLocale(org.spongepowered.api.util.locale.Locales.DEFAULT).getComponent(json, path);
-	}
-
-	public LocaleService getLocaleService() {
-		return localeService;
+		return getPluginLocale(org.spongepowered.api.util.locale.Locales.DEFAULT).getComponent( path);
 	}
 
 	public PluginLocale getPluginLocale(Locale locale) {
-		return localeService.getPluginLocales(pluginid).get(locale);
+		return locales.getSimple(locale);
 	}
 
 	private Component toText(String string) {
@@ -51,11 +49,11 @@ public class Locales {
 	}
 
 	private boolean check(boolean save, PluginLocale pluginLocale, Component value, String comment, Object... path) {
-		return pluginLocale.checkComponent(json, value, comment, path) || save;
+		return pluginLocale.addIfNotExist(value, comment, path) || save;
 	}
 
 	private void save(PluginLocale pluginLocale) {
-		pluginLocale.saveLocaleNode();
+		pluginLocale.save();
 	}
 
 	private void generateDefault(PluginLocale localeUtil) {

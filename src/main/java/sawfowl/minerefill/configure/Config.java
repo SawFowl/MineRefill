@@ -18,6 +18,7 @@ import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 
 import sawfowl.localeapi.api.ConfigTypes;
+import sawfowl.localeapi.api.serializetools.ItemStackSerializerType;
 import sawfowl.localeapi.api.serializetools.SerializeOptions;
 
 @ConfigSerializable
@@ -25,8 +26,6 @@ public class Config {
 
 	public Config() {}
 
-	@Setting("JsonLocales")
-	private boolean jsonLocales = true;
 	@Setting("Debug")
 	@Comment("Display in the console information about how much time it took to generate blocks in the mine.")
 	private boolean debug = true;
@@ -65,10 +64,6 @@ public class Config {
 	@Comment("The type of configuration file for the mine.\nAvailable variants: `.conf`, `.json`, `.yml`.\nIf mines have already been created, this parameter can be safely changed when restarting the server.")
 	private String configType = ConfigTypes.HOCON.toString();
 
-	public boolean isJsonLocales() {
-		return jsonLocales;
-	}
-
 	public boolean isDebug() {
 		return debug;
 	}
@@ -95,9 +90,9 @@ public class Config {
 	public ConfigurationLoader<? extends ConfigurationNode> createMineConfigLoader(Path configDir, UUID mine) {
 		if(!configDir.resolve("Mines").toFile().exists()) configDir.resolve("Mines").toFile().mkdir();
 		switch (configType) {
-		case ".json": return SerializeOptions.createJsonConfigurationLoader(2).path(configDir.resolve("Mines" + File.separator + mine.toString() + configType)).build();
-		case ".yml": return SerializeOptions.createYamlConfigurationLoader(2).path(configDir.resolve("Mines" + File.separator + mine.toString() + configType)).build();
-		default: return SerializeOptions.createHoconConfigurationLoader(2).path(configDir.resolve("Mines" + File.separator + mine.toString() + ".conf")).build();
+		case ".json": return SerializeOptions.createJsonConfigurationLoader(ItemStackSerializerType.JSON).path(configDir.resolve("Mines" + File.separator + mine.toString() + configType)).build();
+		case ".yml": return SerializeOptions.createYamlConfigurationLoader(ItemStackSerializerType.JSON).path(configDir.resolve("Mines" + File.separator + mine.toString() + configType)).build();
+		default: return SerializeOptions.createHoconConfigurationLoader(ItemStackSerializerType.JSON).path(configDir.resolve("Mines" + File.separator + mine.toString() + ".conf")).build();
 		}
 	}
 
@@ -106,15 +101,15 @@ public class Config {
 		ConfigurationLoader<? extends ConfigurationNode> loader;
 		switch (type) {
 			case ".json": {
-				loader = SerializeOptions.createJsonConfigurationLoader(2).file(file).build();
+				loader = SerializeOptions.createJsonConfigurationLoader(ItemStackSerializerType.JSON).file(file).build();
 				break;
 			}
 			case ".yml": {
-				loader = SerializeOptions.createYamlConfigurationLoader(2).file(file).build();
+				loader = SerializeOptions.createYamlConfigurationLoader(ItemStackSerializerType.JSON).file(file).build();
 				break;
 			}
 			case ".conf": {
-				loader = SerializeOptions.createHoconConfigurationLoader(2).file(file).build();
+				loader = SerializeOptions.createHoconConfigurationLoader(ItemStackSerializerType.JSON).file(file).build();
 				break;
 			}
 			default: throw new IllegalArgumentException("Unexpected value: " + file.getName());

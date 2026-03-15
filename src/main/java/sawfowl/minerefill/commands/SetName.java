@@ -9,6 +9,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
 
+import sawfowl.localeapi.api.LocaleService;
 import sawfowl.localeapi.api.TextUtils;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
@@ -20,7 +21,7 @@ public class SetName extends AbstractCommand {
 
 	public SetName(MineRefill plugin) {
 		super(plugin);
-		List<String> locales = plugin.getLocales().getLocaleService().getLocalesList().stream().map(Locale::toLanguageTag).collect(Collectors.toList());
+		List<String> locales = LocaleService.getInstance().getLocalesList().stream().map(Locale::toLanguageTag).collect(Collectors.toList());
 		locales.add("CONSOLE");
 	}
 

@@ -13,7 +13,7 @@ import org.spongepowered.api.util.locale.LocaleSource;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
-
+import sawfowl.localeapi.api.LocaleService;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.configure.LocalesPaths;
@@ -27,7 +27,7 @@ public class Main extends AbstractCommand {
 	@Override
 	public CommandResult execute(CommandContext context) throws CommandException {
 		Audience audience = context.cause().audience();
-		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : plugin.getLocales().getLocaleService().getSystemOrDefaultLocale();
+		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : LocaleService.getInstance().getSystemOrDefaultLocale();
 		Collection<Component> help = new ArrayList<>();
 		if(context.cause().hasPermission(Permissions.EDIT)) {
 			help.add(toText("&a/minerefill create").clickEvent(ClickEvent.runCommand("/minerefill create")).append(toText(" ")).append(plugin.getLocales().getComponent(locale, LocalesPaths.MAIN_CREATE)));

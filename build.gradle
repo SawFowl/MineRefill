@@ -1,11 +1,12 @@
 plugins {
 	id("java")
+	id("java-library")
 	id("eclipse")
 	id("org.spongepowered.gradle.plugin") version "2.0.2"
 }
 
 group = "sawfowl.minerefill"
-version = "${major}.${minor}.${patch}-${api}-${suffix}"
+version = "${major}.${minor}.${patch}-${suffix}-${api}"
 
 java {
 	sourceCompatibility = targetCompatibility = JavaVersion.VERSION_21
@@ -17,10 +18,10 @@ repositories {
 		name = "Sponge"
 		url = "https://repo.spongepowered.org/repository/maven-public"
 	}
-	maven { 
-		name = "JitPack"
-		url 'https://jitpack.io' 
-	}
+	//maven {
+	//	name = "JitPack"
+	//	url 'https://jitpack.io'
+	//}
 }
 
 tasks.withType(JavaCompile) {
@@ -29,8 +30,8 @@ tasks.withType(JavaCompile) {
 
 dependencies {
 	implementation "org.spongepowered:spongeapi:${api}"
-	implementation "com.github.SawFowl:LocaleAPI:${localeapi}"
-	//implementation fileTree(dir: 'libs', include: '*.jar')
+	//implementation "com.github.SawFowl:LocaleAPI:${localeapi}"
+	implementation fileTree(dir: 'libs', include: '*.jar')
 }
 
 sponge {

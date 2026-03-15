@@ -14,7 +14,7 @@ import org.spongepowered.api.util.locale.LocaleSource;
 import org.spongepowered.api.world.LocatableBlock;
 
 import net.kyori.adventure.audience.Audience;
-
+import sawfowl.localeapi.api.LocaleService;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.api.Mine;
@@ -30,7 +30,7 @@ public class AddReserveBlock extends AbstractCommand {
 	@Override
 	public CommandResult execute(CommandContext context) throws CommandException {
 		Audience audience = context.cause().audience();
-		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : plugin.getLocales().getLocaleService().getSystemOrDefaultLocale();
+		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : LocaleService.getInstance().getSystemOrDefaultLocale();
 		if(!(audience instanceof ServerPlayer)) exception(plugin.getLocales().getComponent(locale, LocalesPaths.ONLY_PLAYER));
 		ServerPlayer player = (ServerPlayer) audience;
 		if(!plugin.getMineAPI().getEditableMine(player.uniqueId().toString()).isPresent()) exception(plugin.getLocales().getComponent(locale, LocalesPaths.NOT_SELECTED));

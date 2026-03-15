@@ -15,7 +15,7 @@ import org.spongepowered.api.world.server.ServerLocation;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-
+import sawfowl.localeapi.api.LocaleService;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.configure.LocalesPaths;
@@ -30,7 +30,7 @@ public class List extends AbstractCommand {
 	@Override
 	public CommandResult execute(CommandContext context) throws CommandException {
 		Audience audience = context.cause().audience();
-		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : plugin.getLocales().getLocaleService().getSystemOrDefaultLocale();
+		Locale locale = audience instanceof LocaleSource ? ((LocaleSource) audience).locale() : LocaleService.getInstance().getSystemOrDefaultLocale();
 		boolean isPlayer = audience instanceof ServerPlayer;
 		Collection<Component> list = isPlayer ? plugin.getMineAPI().getMines().stream().map(mine -> (!((ServerPlayer) audience).hasPermission(Permissions.teleport(mine.getUniqueid())) ? plugin.getLocales().getComponent(locale, LocalesPaths.LIST_MINE_TELEPORT_DISALLOWED) : plugin.getLocales().getComponent(locale, LocalesPaths.LIST_MINE_TELEPORT_ALLOWED).clickEvent(SpongeComponents.executeCallback(cause -> {
 			if(mine.getWorld().isPresent()) {

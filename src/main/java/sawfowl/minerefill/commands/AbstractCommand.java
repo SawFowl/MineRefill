@@ -23,7 +23,7 @@ import org.spongepowered.api.world.LocatableBlock;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-
+import sawfowl.localeapi.api.LocaleService;
 import sawfowl.localeapi.api.Text;
 import sawfowl.localeapi.api.TextUtils;
 import sawfowl.minerefill.MineRefill;
@@ -96,7 +96,7 @@ public abstract class AbstractCommand implements CommandExecutor {
 			
 			@Override
 			public Locale getLocale() {
-				return commandCause.first(ServerPlayer.class).map(ServerPlayer::locale).orElse(plugin.getLocales().getLocaleService().getSystemOrDefaultLocale());
+				return commandCause.first(ServerPlayer.class).map(ServerPlayer::locale).orElse(LocaleService.getInstance().getSystemOrDefaultLocale());
 			}
 			
 			@Override

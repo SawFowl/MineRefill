@@ -30,6 +30,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 
 import sawfowl.minerefill.api.SourceData;
+import sawfowl.localeapi.api.LocaleService;
 import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.api.MineAPI;
 import sawfowl.minerefill.configure.LocalesPaths;
@@ -106,7 +107,7 @@ class API implements MineAPI {
 					
 					@Override
 					public Locale getLocale() {
-						return plugin.getLocales().getLocaleService().getSystemOrDefaultLocale();
+						return LocaleService.getInstance().getSystemOrDefaultLocale();
 					}
 					
 					@Override
