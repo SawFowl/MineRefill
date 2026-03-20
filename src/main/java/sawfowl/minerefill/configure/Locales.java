@@ -21,7 +21,7 @@ public class Locales {
 		if(!locales.contains(org.spongepowered.api.util.locale.Locales.DEFAULT)) locales.createSimpleTranslation(ConfigTypes.JSON, org.spongepowered.api.util.locale.Locales.DEFAULT);
 		if(!locales.contains(org.spongepowered.api.util.locale.Locales.RU_RU)) locales.createSimpleTranslation(ConfigTypes.JSON, org.spongepowered.api.util.locale.Locales.RU_RU);
 		generateDefault(locales.getSimple(org.spongepowered.api.util.locale.Locales.DEFAULT));
-		generateRu(locales.getSimple(org.spongepowered.api.util.locale.Locales.DEFAULT));
+		generateRu(locales.getSimple(org.spongepowered.api.util.locale.Locales.RU_RU));
 	}
 
 	public String getString(Locale locale, Object... path) {
