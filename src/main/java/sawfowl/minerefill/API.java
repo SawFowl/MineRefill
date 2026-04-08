@@ -23,12 +23,12 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 
-import sawfowl.minerefill.api.SourceData;
 import sawfowl.localeapi.api.ConfigTypes;
 import sawfowl.localeapi.api.config.ReferencedConfig;
 import sawfowl.localeapi.api.serializetools.ItemStackSerializerType;
 import sawfowl.localeapi.api.services.ConfigurationService;
 import sawfowl.localeapi.api.services.LocaleService;
+import sawfowl.minerefill.api.SourceData;
 import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.api.MineAPI;
 import sawfowl.minerefill.configure.LocalesPaths;
