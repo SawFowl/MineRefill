@@ -23,9 +23,10 @@ import org.spongepowered.api.world.LocatableBlock;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import sawfowl.localeapi.api.LocaleService;
+
 import sawfowl.localeapi.api.Text;
 import sawfowl.localeapi.api.TextUtils;
+import sawfowl.localeapi.api.services.LocaleService;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.api.SourceData;
 import sawfowl.minerefill.configure.LocalesPaths;

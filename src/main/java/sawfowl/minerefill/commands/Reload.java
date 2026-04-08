@@ -9,7 +9,8 @@ import org.spongepowered.api.command.parameter.CommandContext;
 import org.spongepowered.api.util.locale.LocaleSource;
 
 import net.kyori.adventure.audience.Audience;
-import sawfowl.localeapi.api.LocaleService;
+
+import sawfowl.localeapi.api.services.LocaleService;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.configure.LocalesPaths;

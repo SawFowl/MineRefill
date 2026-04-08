@@ -9,8 +9,8 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
 
-import sawfowl.localeapi.api.LocaleService;
 import sawfowl.localeapi.api.TextUtils;
+import sawfowl.localeapi.api.services.LocaleService;
 import sawfowl.minerefill.MineRefill;
 import sawfowl.minerefill.Permissions;
 import sawfowl.minerefill.api.Mine;

@@ -1,7 +1,6 @@
 package sawfowl.minerefill;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,8 +9,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -19,18 +18,17 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.service.permission.Subject;
-import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.loader.ConfigurationLoader;
-import org.spongepowered.configurate.reference.ConfigurationReference;
-import org.spongepowered.configurate.reference.ValueReference;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 
 import sawfowl.minerefill.api.SourceData;
-import sawfowl.localeapi.api.LocaleService;
+import sawfowl.localeapi.api.ConfigTypes;
+import sawfowl.localeapi.api.config.ReferencedConfig;
+import sawfowl.localeapi.api.serializetools.ItemStackSerializerType;
+import sawfowl.localeapi.api.services.ConfigurationService;
+import sawfowl.localeapi.api.services.LocaleService;
 import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.api.MineAPI;
 import sawfowl.minerefill.configure.LocalesPaths;
@@ -76,14 +74,7 @@ class API implements MineAPI {
 	@Override
 	public void saveMine(Mine mine) {
 		if(!mines.contains(mine)) mines.add(mine);
-		try {
-			ConfigurationReference<? extends ConfigurationNode> mineConfigReference = plugin.getConfig().createMineConfigLoader(plugin.getConfigDir(), mine.getUniqueid()).loadToReference();
-			ValueReference<MineData, ? extends ConfigurationNode> mineConfig = mineConfigReference.referenceTo(MineData.class);
-			mineConfigReference.save();
-			mineConfig.setAndSave((@Nullable MineData) mine);
-		} catch (ConfigurateException e) {
-			plugin.getLogger().error(e.getLocalizedMessage());
-		}
+		createMineConfig(mine.getUniqueid(), (@Nullable MineData) mine);
 	}
 
 	@Override
@@ -124,27 +115,12 @@ class API implements MineAPI {
 	void loadMines() {
 		File minesFolder = plugin.getConfigDir().resolve("Mines").toFile();
 		if(!minesFolder.exists()) return;
-		for(File mineFile : Arrays.stream(minesFolder.listFiles()).filter(file -> isValidFile(file)).collect(Collectors.toList())) {
-			Optional<ConfigurationLoader<? extends ConfigurationNode>> loader = plugin.getConfig().createMineConfigLoader(plugin.getConfigDir(), mineFile);
-			if(loader.isPresent()) try {
-				ConfigurationReference<? extends ConfigurationNode> mineConfigReference = loader.get().loadToReference();
-				ValueReference<MineData, ? extends ConfigurationNode> mineConfig = mineConfigReference.referenceTo(MineData.class);
-				mines.add(mineConfig.get());
-			} catch (ConfigurateException e) {
-				plugin.getLogger().error(e.getLocalizedMessage());
-				continue;
-			}
+		for(File mineFile : minesFolder.listFiles()) {
+			if(!ConfigTypes.isValidExtension(ConfigTypes.getExtension(mineFile.getName()))) continue;
+			ReferencedConfig<MineData> mineConfig = createMineConfig(mineFile);
+			mines.add(mineConfig.get());
 		}
 		for(Mine mine : mines) mine.setNextUpdate(true);
-	}
-
-	private boolean isValidFile(File file) {
-		switch (getExtension(file.getName())) {
-		case "conf": return true;
-		case "json": return true;
-		case "yml": return true;
-		default: return false;
-		}
 	}
 
 	private void sendMessage(Mine mine, Object[] path) {
@@ -165,18 +141,14 @@ class API implements MineAPI {
 		return component.replaceText(TextReplacementConfig.builder().match(ReplaceKeys.NAME).replacement(mine.getDisplayName(locale)).build());
 	}
 
-	String getExtension(String fileName) {
-		char ch;
-		int len;
-		if(fileName==null || 
-				(len = fileName.length())==0 ||
-				(ch = fileName.charAt(len-1))=='/' || ch=='\\' ||
-				 ch=='.' )
-			return "";
-		int dotInd = fileName.lastIndexOf('.'),
-			sepInd = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
-		if(dotInd<=sepInd) return "";
-		else return fileName.substring(dotInd+1).toLowerCase();
+	public ReferencedConfig<MineData> createMineConfig(File file) {
+		if(!plugin.getConfigDir().resolve("Mines").toFile().exists()) plugin.getConfigDir().resolve("Mines").toFile().mkdir();
+		return ConfigurationService.getInstance().createReferencedConfig(plugin.getPluginContainer(), MineData.class).fromFile(file).setItemStackSerializerType(ItemStackSerializerType.JSON).build();
+	}
+
+	public ReferencedConfig<MineData> createMineConfig(UUID mine, MineData mineData) {
+		if(!plugin.getConfigDir().resolve("Mines").toFile().exists()) plugin.getConfigDir().resolve("Mines").toFile().mkdir();
+		return ConfigurationService.getInstance().createReferencedConfig(plugin.getPluginContainer(), mineData).setPath(plugin.getConfigDir()).setName(mine.toString()).setType(ConfigTypes.HOCON).setItemStackSerializerType(ItemStackSerializerType.JSON).build();
 	}
 
 }

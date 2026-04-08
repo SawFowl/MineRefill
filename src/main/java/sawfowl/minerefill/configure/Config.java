@@ -1,25 +1,15 @@
 package sawfowl.minerefill.configure;
 
-import java.io.File;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.spongepowered.configurate.BasicConfigurationNode;
-import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 
 import sawfowl.localeapi.api.ConfigTypes;
-import sawfowl.localeapi.api.serializetools.ItemStackSerializerType;
-import sawfowl.localeapi.api.serializetools.SerializeOptions;
 
 @ConfigSerializable
 public class Config {
@@ -85,61 +75,6 @@ public class Config {
 
 	private String[] toStringArray(Object[] path) {
 		return Stream.of(path).map(Object::toString).toArray(String[]::new);
-	}
-
-	public ConfigurationLoader<? extends ConfigurationNode> createMineConfigLoader(Path configDir, UUID mine) {
-		if(!configDir.resolve("Mines").toFile().exists()) configDir.resolve("Mines").toFile().mkdir();
-		switch (configType) {
-		case ".json": return SerializeOptions.createJsonConfigurationLoader(ItemStackSerializerType.JSON).path(configDir.resolve("Mines" + File.separator + mine.toString() + configType)).build();
-		case ".yml": return SerializeOptions.createYamlConfigurationLoader(ItemStackSerializerType.JSON).path(configDir.resolve("Mines" + File.separator + mine.toString() + configType)).build();
-		default: return SerializeOptions.createHoconConfigurationLoader(ItemStackSerializerType.JSON).path(configDir.resolve("Mines" + File.separator + mine.toString() + ".conf")).build();
-		}
-	}
-
-	public Optional<ConfigurationLoader<? extends ConfigurationNode>> createMineConfigLoader(Path configDir, File file) {
-		String type = "." + getExtension(file.getName());
-		ConfigurationLoader<? extends ConfigurationNode> loader;
-		switch (type) {
-			case ".json": {
-				loader = SerializeOptions.createJsonConfigurationLoader(ItemStackSerializerType.JSON).file(file).build();
-				break;
-			}
-			case ".yml": {
-				loader = SerializeOptions.createYamlConfigurationLoader(ItemStackSerializerType.JSON).file(file).build();
-				break;
-			}
-			case ".conf": {
-				loader = SerializeOptions.createHoconConfigurationLoader(ItemStackSerializerType.JSON).file(file).build();
-				break;
-			}
-			default: throw new IllegalArgumentException("Unexpected value: " + file.getName());
-		}
-		if(!type.equals(configType)) {
-			try {
-				BasicConfigurationNode tempNode = BasicConfigurationNode.root().from(loader.load());
-				loader = createMineConfigLoader(configDir, UUID.fromString(tempNode.node("UUID").getString()));
-				file.delete();
-				loader.save(tempNode);
-			} catch (ConfigurateException e) {
-				e.printStackTrace();
-				return Optional.empty();
-			}
-		}
-		return Optional.ofNullable(loader);
-	}
-
-	String getExtension(String fileName) {
-		char ch;
-		int len;
-		if(fileName==null || 
-				(len = fileName.length())==0 ||
-				(ch = fileName.charAt(len-1))=='/' || ch=='\\' ||
-				 ch=='.' )
-			return "";
-		int dotInd = fileName.lastIndexOf('.'),
-			sepInd = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
-		if(dotInd<=sepInd) return "";
-		else return fileName.substring(dotInd+1).toLowerCase();
 	}
 
 }

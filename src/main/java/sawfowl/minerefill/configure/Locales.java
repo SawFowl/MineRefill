@@ -6,12 +6,13 @@ import org.spongepowered.plugin.PluginContainer;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
 import sawfowl.localeapi.api.ConfigTypes;
-import sawfowl.localeapi.api.LocaleService;
 import sawfowl.localeapi.api.LocalesList;
 import sawfowl.localeapi.api.Text;
 import sawfowl.localeapi.api.Translation;
 import sawfowl.localeapi.api.config.locale.PluginLocale;
+import sawfowl.localeapi.api.services.LocaleService;
 
 public class Locales {
 

@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import sawfowl.localeapi.api.ConfigTypes;
 import sawfowl.localeapi.api.config.ReferencedConfig;
 import sawfowl.localeapi.api.serializetools.ItemStackSerializerType;
+import sawfowl.localeapi.api.services.ConfigurationService;
 import sawfowl.minerefill.api.Mine;
 import sawfowl.minerefill.api.MineAPI;
 import sawfowl.minerefill.api.event.PostMineAPIEvent;
@@ -50,11 +51,11 @@ public class MineRefill {
 		this.pluginContainer = pluginContainer;
 		configDir = configDirectory;
 		mineAPI = new API(instance);
-		config = ReferencedConfig.create(pluginContainer, configDirectory, "Config", ConfigTypes.HOCON, ItemStackSerializerType.JSON, null, Config.class);
 		locales = new Locales(pluginContainer);
 		if(!configDir.resolve("Mines").toFile().exists()) {
 			configDir.resolve("Mines").toFile().mkdir();
 		}
+		config = ConfigurationService.getInstance().createReferencedConfig(pluginContainer, Config.class).setPath(configDirectory).setName("Config").setType(ConfigTypes.HOCON).setItemStackSerializerType(ItemStackSerializerType.JSON).build();
 	}
 
 	@Listener
