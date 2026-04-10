@@ -9,8 +9,6 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 
-import sawfowl.localeapi.api.ConfigTypes;
-
 @ConfigSerializable
 public class Config {
 
@@ -48,11 +46,8 @@ public class Config {
 			new PlayerAlert(2, toStringArray(LocalesPaths.NOTIFICATION_2S)),
 			new PlayerAlert(1, toStringArray(LocalesPaths.NOTIFICATION_1S))
 			).collect(Collectors.toMap(alert -> alert.getTime(), alert -> alert.getPath()));
-	private Map<Integer, Object[]> cachedAlerts = new HashMap<Integer, Object[]>();
 
-	@Setting("ConfigType")
-	@Comment("The type of configuration file for the mine.\nAvailable variants: `.conf`, `.json`, `.yml`.\nIf mines have already been created, this parameter can be safely changed when restarting the server.")
-	private String configType = ConfigTypes.HOCON.toString();
+	private Map<Integer, Object[]> cachedAlerts = new HashMap<Integer, Object[]>();
 
 	public boolean isDebug() {
 		return debug;
